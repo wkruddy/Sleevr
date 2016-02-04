@@ -26,7 +26,9 @@ gulp.task('lint', function(){
 });
 
 gulp.task('scripts:concat-min', ['lint'], function(){
-  return gulp.src([paths.sourceJs, 'node_modules/bootstrap/dist/js/bootstrap.js'])
+  return gulp.src([paths.sourceJs,
+                  'node_modules/jquery/dist/jquery.js',
+                  'node_modules/bootstrap/dist/js/bootstrap.js'])
         .pipe(concat('scripts'))
         .pipe(rename({
           extname: '.min.js'
