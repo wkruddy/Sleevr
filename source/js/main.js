@@ -1,3 +1,3 @@
 (function(){
-	console.log('fuck!!');
+	// Blank file for now!!!
 })();
