@@ -26,8 +26,8 @@ var gulp = require('gulp'),
 var paths = {
   sourceJs: 'source/js/*.js',
   sourceSass: 'source/sass/*.scss',
-  buildJs: 'build/js/',
-  buildCss: 'build/css/',
+  buildJs: 'build/js',
+  buildCss: 'build/css',
   libJs: 'lib/js/',
   libSass: 'lib/sass/'
 };
@@ -38,7 +38,7 @@ var paths = {
 ########################
 */
 
-gulp.task('build', ['clean', 'lib:compile', 'scripts:compression', 'sassy:compression'], function(){
+gulp.task('build', ['scripts:compression', 'sassy:compression', 'lib:compile'], function(){
   utils.log('################ Gulp Watching for Changes! ################');
 });
 
@@ -98,7 +98,7 @@ gulp.task('lint', function(){
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('scripts:compression', function(){
+gulp.task('scripts:compression', ['scripts:clean'],function(){
   return gulp.src(paths.sourceJs)
         .pipe(size({
           showFiles: true,
@@ -114,7 +114,7 @@ gulp.task('scripts:compression', function(){
           showFiles: true,
           title: '######## Final compressed ----Core---- JS size ########'
         }))
-        .pipe(gulp.dest('build/js'))
+        .pipe(gulp.dest(paths.buildJs))
         .pipe(reload({stream: true}));
 });
 
@@ -134,7 +134,7 @@ gulp.task('lib:combine:js', function(){
           showFiles: true,
           title: '####### Final compressed ----Lib---- JS size ########'
         }))
-        .pipe(gulp.dest('build/js'));
+        .pipe(gulp.dest(paths.buildJs));
 });
 
 /*
@@ -143,7 +143,7 @@ gulp.task('lib:combine:js', function(){
 ########################
 */
 
-gulp.task('sassy:compression', function(){
+gulp.task('sassy:compression', ['sassy:clean'], function(){
   return gulp.src('source/sass/styles.scss')
         .pipe(size({
           showFiles: true,
@@ -190,16 +190,15 @@ gulp.task('lib:combine:sass', function(){
 #### Clean Up Tasks ####
 ########################
 */
-gulp.task('clean', ['scripts:clean', 'sassy:clean']);
 
 gulp.task('lib:compile', ['lib:combine:sass', 'lib:combine:js']);
 
 gulp.task('scripts:clean', function(){
-  return gulp.src(paths.buildJs)
+  return gulp.src(paths.buildJs + '/*.js')
         .pipe(clean());
 });
 
 gulp.task('sassy:clean', function(){
-  return gulp.src(paths.buildCss)
+  return gulp.src(paths.buildCss + '/*.css')
         .pipe(clean());
 });
