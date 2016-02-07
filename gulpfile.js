@@ -6,6 +6,7 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
     jshint = require('gulp-jshint'),
+    babel = require('gulp-babel'),
     clean = require('gulp-clean'),
     utils = require('gulp-util'),
     nano = require('gulp-cssnano'),
@@ -97,12 +98,13 @@ gulp.task('lint', function(){
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('scripts:compression', ['lint'], function(){
+gulp.task('scripts:compression', function(){
   return gulp.src(paths.sourceJs)
         .pipe(size({
           showFiles: true,
           title: '######## Initial ----Core---- JS size ########'
         }))
+        //.pipe(babel())
         .pipe(concat('scripts'))
         .pipe(rename({
           extname: '.min.js'
@@ -193,11 +195,11 @@ gulp.task('clean', ['scripts:clean', 'sassy:clean']);
 gulp.task('lib:compile', ['lib:combine:sass', 'lib:combine:js']);
 
 gulp.task('scripts:clean', function(){
-  return gulp.src(paths.buildJs + '*.js')
+  return gulp.src(paths.buildJs)
         .pipe(clean());
 });
 
 gulp.task('sassy:clean', function(){
-  return gulp.src(paths.buildCss + '*.css')
+  return gulp.src(paths.buildCss)
         .pipe(clean());
 });
