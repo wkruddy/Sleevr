@@ -12,10 +12,14 @@ var gulp = require('gulp'),
     nano = require('gulp-cssnano'),
     sass = require('gulp-sass'),
     size = require('gulp-size'),
-    browserSync = require('browser-sync').create(),
-    reload = browserSync.reload,
+    browserify = require('browserify'),
+    watchify = require('watchify'),
     autoprefixer = require('gulp-autoprefixer'),
-    nodemon = require('gulp-nodemon');
+    source = require('vinyl-source-stream'),
+    buffer = require('vinyl-buffer'),
+    nodemon = require('gulp-nodemon'),
+    browserSync = require('browser-sync').create(),
+    reload = browserSync.reload;
 
 /*
 ########################
@@ -38,14 +42,14 @@ var paths = {
 ########################
 */
 
-gulp.task('build', ['scripts:compression', 'sassy:compression', 'lib:compile'], function(){
+gulp.task('build', ['browserify', 'sassy:compression', 'lib:compile'], function(){
   utils.log('################ Gulp Watching for Changes! ################');
 });
 
 gulp.task('default', ['build', 'browser:sync'], function(){
   utils.log('################ Gulp Default Process Running! ################');
   gulp.watch('*.html', reload);
-  gulp.watch(paths.sourceJs, ['lib:combine:js', 'scripts:clean', 'scripts:compression']);
+  //gulp.watch(paths.sourceJs, ['lib:combine:js', 'scripts:clean', 'browserify']);
   gulp.watch(paths.sourceSass, ['lib:combine:sass','sassy:clean', 'sassy:compression']);
 });
 
@@ -61,7 +65,7 @@ gulp.task('nodemon', function (callback) {
   var started = false;
 
   return nodemon({
-    script: 'app.js',
+    script: 'server.js',
     ignore: [
       'gulpfile.js',
       'node_modules/',
@@ -79,11 +83,57 @@ gulp.task('nodemon', function (callback) {
 
 // Initialize BrowserSync with the port BS should run on,
 // and the express server port
-gulp.task('browser:sync', ['nodemon'], function() {
-  browserSync.init(null, {
-    proxy: 'http://localhost:9000',
-    port: 5000
+// gulp.task('browser:sync', ['nodemon'], function() {
+//   browserSync.init(null, {
+//     proxy: 'http://localhost:9000',
+//     port: 5000
+//   });
+// });
+gulp.task('browser:sync', function(){
+  browserSync.init({
+    server: {
+      baseDir: './'
+    },
+    port: 9000
   });
+});
+
+gulp.task('browserify', function(){
+
+  var bundler = browserify({
+    entries: ['source/js/app.js'],
+    debug: true,
+    cache: {},
+    packageCache: {},
+    fullPaths: true
+  });
+  var watcher = watchify(bundler);
+
+  var bundleScripts = function(){
+
+    return watcher.bundle()
+          .pipe(source('app.js'))
+          .pipe(buffer())
+          .pipe(size({
+            showFiles: true,
+            title: '######## Initial ----Core---- JS size ########'
+          }))
+          //.pipe(babel())
+          .pipe(concat('scripts'))
+          .pipe(rename({
+            extname: '.min.js'
+          }))
+          .pipe(uglify())
+          .pipe(size({
+            showFiles: true,
+            title: '######## Final compressed ----Core---- JS size ########'
+          }))
+          .pipe(gulp.dest(paths.buildJs))
+          .pipe(reload({stream: true}));
+  };
+
+  watcher.on('update', bundleScripts);
+  return bundleScripts();
 });
 
 /*
@@ -98,29 +148,31 @@ gulp.task('lint', function(){
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('scripts:compression', ['scripts:clean'],function(){
-  return gulp.src(paths.sourceJs)
-        .pipe(size({
-          showFiles: true,
-          title: '######## Initial ----Core---- JS size ########'
-        }))
-        //.pipe(babel())
-        .pipe(concat('scripts'))
-        .pipe(rename({
-          extname: '.min.js'
-        }))
-        .pipe(uglify())
-        .pipe(size({
-          showFiles: true,
-          title: '######## Final compressed ----Core---- JS size ########'
-        }))
-        .pipe(gulp.dest(paths.buildJs))
-        .pipe(reload({stream: true}));
-});
+// gulp.task('scripts:compression', ['scripts:clean'],function(){
+//   return gulp.src(paths.sourceJs)
+//         .pipe(size({
+//           showFiles: true,
+//           title: '######## Initial ----Core---- JS size ########'
+//         }))
+//         //.pipe(babel())
+//         .pipe(concat('scripts'))
+//         .pipe(rename({
+//           extname: '.min.js'
+//         }))
+//         .pipe(uglify())
+//         .pipe(size({
+//           showFiles: true,
+//           title: '######## Final compressed ----Core---- JS size ########'
+//         }))
+//         .pipe(gulp.dest(paths.buildJs))
+//         .pipe(reload({stream: true}));
+// });
 
-gulp.task('lib:combine:js', function(){
+gulp.task('lib:combine:js', ['scripts:clean'], function(){
   // Bootstrap depends on jQuery being in front of it
-  return gulp.src([paths.libJs + 'jquery.js', paths.libJs + '*.js'])
+  return gulp.src(['node_modules/jquery/dist/jquery.min.js',
+                  'node_modules/bootstrap-sass/assets/javascripts/boostrap.js'
+                  ])
         .pipe(size({
           showFiles: true,
           title: '######## Initial ----Lib---- JS size ########'
@@ -164,7 +216,7 @@ gulp.task('sassy:compression', ['sassy:clean'], function(){
 });
 
 gulp.task('lib:combine:sass', function(){
-  return gulp.src([paths.libSass + 'bootstrap/bootstrap.scss'])
+  return gulp.src(['node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss'])
         .pipe(size({
           showFiles: true,
           title: '######## Initial ----Lib---- SASS size #######'

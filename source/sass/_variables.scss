@@ -1,4 +1,12 @@
 $purple: #AA0CE9;
+$purple-dark: darken($purple, 20%);
+$purple-light: lighten($purple, 20%);
+$purple-very-light: lighten($purple, 40%);
 $white: #FFF;
-$grey: #777;
+$grey: #ECECEC;
+$grey-very-light: #999;
 $grey-light: lighten($grey, 20%);
+$teal-light: #89D2F7;
+$slate: #BCD7F5;
+
+$class-slug: sleeve-image;
