@@ -11,7 +11,7 @@ function buildTask() {
     ########################
     */
 
-    gulp.task('build', ['browserify', 'sassy:compression', 'lib:compile'], function(){
+    gulp.task('build', ['lib:compile', 'browserify', 'sassy:compression'], function(){
       utils.log('################ Gulp Watching for Changes! ################');
     });
 

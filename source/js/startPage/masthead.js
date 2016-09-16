@@ -1,10 +1,10 @@
 var React = require('react'),
-    galleryImageList = require('./gallery/galleryImageList');
+    GalleryImageList = require('../gallery/galleryImageList');
 
-var masthead =  React.createClass({
+var Masthead = React.createClass({
   render: function () {
     
-    return React.createElement(galleryImageList, {});
+    return React.createElement(GalleryImageList, {});
   }
 });
-module.exports = masthead;
+module.exports = Masthead;

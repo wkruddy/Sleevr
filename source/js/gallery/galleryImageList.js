@@ -1,6 +1,6 @@
 var React = require('react');
 
-var galleryImageList = React.createClass({
+var GalleryImageList = React.createClass({
     render: function () {
 
         var count = this.props.landingPageGalleryImageCount;
@@ -40,4 +40,4 @@ var galleryImageList = React.createClass({
     }
 });
 
-module.exports = galleryImageList;
+module.exports = GalleryImageList;

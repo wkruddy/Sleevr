@@ -41,7 +41,7 @@ function scriptsTask() {
     //         .pipe(reload({stream: true}));
     // });
 
-    gulp.task('lib:combine:js', ['scripts:clean'], function(){
+    gulp.task('lib:combine:js', function(){
       // Bootstrap depends on jQuery being in front of it
       return gulp.src(['node_modules/jquery/dist/jquery.min.js',
                       'node_modules/bootstrap-sass/assets/javascripts/boostrap.js'

@@ -1,8 +1,8 @@
 var React = require('react');
 
-var profile = React.createClass({
+var Profile = React.createClass({
   render: function(){
     return React.createElement('section', {});
   }
 });
-module.exports = profile;
+module.exports = Profile;

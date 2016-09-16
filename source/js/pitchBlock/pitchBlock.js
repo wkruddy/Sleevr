@@ -1,8 +1,8 @@
 var React = require('react');
 
-var pitchBlock = React.createClass({
+var PitchBlock = React.createClass({
   render: function(){
     return React.createElement('div', {});
   }
 });
-module.exports = pitchBlock;
+module.exports = PitchBlock;

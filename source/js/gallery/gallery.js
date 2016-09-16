@@ -1,6 +1,6 @@
 var React = require('react');
 
-var gallery = React.createClass({
+var Gallery = React.createClass({
   render: function () {
     
     return React.createElement('section', {
@@ -9,4 +9,4 @@ var gallery = React.createClass({
     });
   }
 });
-module.exports = gallery;
+module.exports = Gallery;

@@ -1,7 +1,7 @@
 var React = require('react');
 var _ = require('lodash');
 
-var navLinks = React.createClass({
+var NavLinks = React.createClass({
 
   render: function () {
     var childListItems = this.props.navItems.map(function (navItem) {
@@ -21,4 +21,4 @@ var navLinks = React.createClass({
   },
 });
 
-module.exports = navLinks;
+module.exports = NavLinks;

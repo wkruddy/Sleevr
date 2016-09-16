@@ -9,40 +9,40 @@ var gulp = require('gulp'),
     watchify = require('watchify'),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
-    nodemon = require('gulp-nodemon'),
+    // nodemon = require('gulp-nodemon'),
     browserSync = require('browser-sync').create(),
     reload = browserSync.reload,
     gulpConstants = require('../constants/gulp.constants');
 
 function bootTask () {
         
-    /*
-    ########################
-    ###### Boot Tasks ######
-    ########################
-    */
+    // /*
+    // ########################
+    // ###### Boot Tasks ######
+    // ########################
+    // */
 
-    // Task for starting nodemon to use a local express server
-    gulp.task('nodemon', function (callback) {
+    // // Task for starting nodemon to use a local express server
+    // gulp.task('nodemon', function (callback) {
 
-      var started = false;
+    //   var started = false;
 
-      return nodemon({
-        script: 'server.js',
-        ignore: [
-          'gulpfile.js',
-          'node_modules/',
-          gulpConstants.paths.sourceJs
-        ]
-      }).on('start', function () {
-        // Standard pattern for making sure nodemon doesn't init a bunch
+    //   return nodemon({
+    //     script: 'server.js',
+    //     ignore: [
+    //       'gulpfile.js',
+    //       'node_modules/',
+    //       gulpConstants.paths.sourceJs
+    //     ]
+    //   }).on('start', function () {
+    //     // Standard pattern for making sure nodemon doesn't init a bunch
 
-        if (!started) {
-          callback();
-          started = true;
-        }
-      });
-    });
+    //     if (!started) {
+    //       callback();
+    //       started = true;
+    //     }
+    //   });
+    // });
 
     // Initialize BrowserSync with the port BS should run on,
     // and the express server port
@@ -52,16 +52,17 @@ function bootTask () {
     //     port: 5000
     //   });
     // });
-    gulp.task('browser:sync', function(){
+    gulp.task('browser:sync', function() {
       browserSync.init({
         server: {
           baseDir: './'
         },
         port: 9000
       });
+      console.log(browserSync)
     });
 
-    gulp.task('browserify', function(){
+    gulp.task('browserify', function() {
 
       var bundler = browserify({
         entries: ['source/js/app.js'],
@@ -86,7 +87,7 @@ function bootTask () {
               .pipe(rename({
                 extname: '.min.js'
               }))
-              .pipe(uglify())
+              // .pipe(uglify())
               .pipe(size({
                 showFiles: true,
                 title: '######## Final compressed ----Core---- JS size ########'

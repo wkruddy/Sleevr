@@ -1,15 +1,15 @@
 var React = require('react');
-var navList = require('./navLinks');
+var NavLinks = require('./navLinks');
 var _ = require('lodash');
 
-var navBar = React.createClass({
+var NavBar = React.createClass({
   render: function(){
 
     var container = React.createElement('div', {className: 'container-fluid'},[
       React.createElement('div', {className: 'navbar-header', key: 'nav-header'},
         [React.createElement('div', {className: 'navbar-brand', key: 'brand'}, 'KL')]
       ),
-      React.createElement(navList, _.extend({key: 'nav-list'}, this.props))
+      React.createElement(NavLinks, _.extend({key: 'nav-list'}, this.props))
     ]);
     var navProps = {
       key: 'navBar',
@@ -20,4 +20,4 @@ var navBar = React.createClass({
   }
 });
 
-module.exports = navBar;
+module.exports = NavBar;
