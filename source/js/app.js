@@ -26,10 +26,10 @@
                       Profile];
     baseProps = {
         navItems: [
-          { link: '#', title: 'Home' },
-          { link: '#', title: 'Design' },
-          { link: '#', title: 'Gallery' },
-          { link: '#', title: 'Profile' }
+          { link: '/home', title: 'Home' },
+          { link: '/design-arena', title: 'Design' },
+          { link: '/gallery', title: 'Gallery' },
+          { link: '/profile', title: 'Profile' }
         ],
         landingPageGalleryImageCount: 12
     };
@@ -40,7 +40,7 @@
             var self = this;
             var count = 0;
             var childComponents = mainComponents.map(function (component) {
-                var props = _.extend({ key: 'component' + count++ }, self.props);
+                var props = _.assign({ key: 'component' + count++ }, self.props);
                 return React.createElement(component, props);
             });
 

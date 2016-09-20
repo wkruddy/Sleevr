@@ -1,13 +1,16 @@
-var React = require('react');
+var React = require('react'),
+    section = React.DOM.section,
+    DesignArena;
 
-var DesignArena = React.createClass({
-  render: function(){
-    var designBox = React.createElement('section', {
+DesignArena = React.createClass({
+  render: function() {
+    var designBox = section({
         className: 'design-arena',
         key: 'designArenaBox'
     }, []);
 
     return designBox;
   }
+  
 });
 module.exports = DesignArena;
