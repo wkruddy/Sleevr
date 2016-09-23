@@ -1,19 +1,28 @@
-var React = require('react'),
-    _ = require('lodash'),
-    section = React.DOM.section,
-    Sidebar = require('../common/sidebar/sidebar'),
-    SidebarTools;
+import React from 'react';
+import _ from 'lodash';
+import Sidebar from '../common/sidebar/sidebar';
 
-SidebarTools = React.createClass({
-  render: function() {
-    var sidebar = React.createElement(Sidebar, _.assign({ key: 'sidebarComponent' }, this.props));
-    var sidebarToolBox = section({
-        className: 'sidebar-tools',
-        key: 'sidebarToolBox'
-    }, []);
+const section = React.DOM.section;
 
-    return sidebarToolBox;
-  }
-  
-});
-module.exports = SidebarTools;
+class SidebarTools extends React.Component {
+
+    constructor (props) {
+        super(props);
+        this.state = {};
+    }
+
+    render () {
+        const sidebar = React.createElement(Sidebar,
+                        _.assign({ key: 'sidebarComponent' },
+                        this.props));
+        const sidebarToolBox = section({
+            className: 'sidebar-tools',
+            key: 'sidebarToolBox'
+        }, []);
+
+        return sidebarToolBox;
+    }
+
+}
+
+export default SidebarTools;

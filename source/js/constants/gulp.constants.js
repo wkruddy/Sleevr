@@ -1,15 +1,13 @@
 
-var paths = {
-  sourceJs: 'source/js/*.js',
-  sourceSass: 'source/sass/*.scss',
-  buildJs: 'build/js',
-  buildCss: 'build/css',
-  libJs: 'lib/js/',
-  libSass: 'lib/sass/'
+const paths = {
+    sourceJs: 'source/js/*.js',
+    sourceSass: 'source/sass/*.scss',
+    buildJs: 'build/js',
+    buildCss: 'build/css',
+    libJs: 'lib/js/',
+    libSass: 'lib/sass/'
 };
 
-var gulpConstants = {
-    paths: paths
-};
+const gulpConstants = { paths };
 
-module.exports = gulpConstants;
+export default gulpConstants;

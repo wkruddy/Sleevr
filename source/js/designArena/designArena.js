@@ -1,16 +1,23 @@
-var React = require('react'),
-    section = React.DOM.section,
-    DesignArena;
+import React from 'react';
 
-DesignArena = React.createClass({
-  render: function() {
-    var designBox = section({
-        className: 'design-arena',
-        key: 'designArenaBox'
-    }, []);
+const section = React.DOM.section;
 
-    return designBox;
-  }
-  
-});
-module.exports = DesignArena;
+class DesignArena extends React.Component {
+
+    constructor (props) {
+        super(props);
+        this.state = {};
+    }
+
+    render () {
+        const designBox = section({
+            className: 'design-arena',
+            key: 'designArenaBox'
+        }, []);
+
+        return designBox;
+    }
+
+}
+
+export default DesignArena;

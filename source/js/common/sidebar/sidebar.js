@@ -1,16 +1,23 @@
-var React = require('react'),
-    section = React.DOM.section,
-    Sidebar;
+import React from 'react';
 
-Sidebar = React.createClass({
-  render: function() {
-    var sidebarToolBox = section({
-        className: 'sidebar-tools',
-        key: 'sidebarToolBox'
-    }, []);
+const section = React.DOM.section;
 
-    return sidebarToolBox;
-  }
-  
-});
-module.exports = Sidebar;
+class Sidebar extends React.Component {
+
+    constructor (props) {
+        super(props);
+        this.state = {};
+    }
+
+    render () {
+        const sidebarToolBox = section({
+            className: 'sidebar-tools',
+            key: 'sidebarToolBox'
+        }, []);
+
+        return sidebarToolBox;
+    }
+
+}
+
+export default Sidebar;

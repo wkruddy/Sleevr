@@ -1,16 +1,23 @@
-var React = require('react'),
-    section = React.DOM.section,
-    DrawingBoard;
+import React from 'react';
 
-DrawingBoard = React.createClass({
-  render: function() {
-    var drawingBoardBox = section({
-        className: 'drawing-board',
-        key: 'drawingBoardBox'
-    }, []);
+const section = React.DOM.section;
 
-    return drawingBoardBox;
-  }
-  
-});
-module.exports = DrawingBoard;
+class DrawingBoard extends React.Component {
+
+    constructor (props) {
+        super(props);
+        this.state = {};
+    }
+
+    render () {
+        const drawingBoardBox = section({
+            className: 'drawing-board',
+            key: 'drawingBoardBox'
+        }, []);
+
+        return drawingBoardBox;
+    }
+
+}
+
+export default DrawingBoard;

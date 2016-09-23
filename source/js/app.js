@@ -1,56 +1,67 @@
-(function () {
-    // Initial react controller view
+// Initial react controller view
 
-    'use strict';
+'use strict';
 
-    var React = require('react'),
-        ReactDOM = require('react-dom'),
-        _ = require('lodash'),
-        NavBar = require('./navBar/navBar'),
-        StartPage = require('./startPage/startPage'),
-        PitchBlock = require('./pitchBlock/pitchBlock'),
-        PageFooter = require('./pageFooter/pageFooter'),
-        DesignArena = require('./designArena/designArena'),
-        Gallery = require('./gallery/gallery'),
-        Profile = require('./profile/profile'),
-        mainComponents,
-        baseProps,
-        Sleevr;
+import React from 'react';
+import _ from 'lodash';
 
-    mainComponents = [NavBar,
-                      StartPage,
-                      PitchBlock,
-                      PageFooter,
-                      DesignArena,
-                      Gallery,
-                      Profile];
-    baseProps = {
-        navItems: [
-          { link: '/home', title: 'Home' },
-          { link: '/design-arena', title: 'Design' },
-          { link: '/gallery', title: 'Gallery' },
-          { link: '/profile', title: 'Profile' }
-        ],
-        landingPageGalleryImageCount: 12
-    };
+import ReactDOM from 'react-dom';
+import NavBar from './navBar/navBar';
+import StartPage from './startPage/startPage';
+import PageFooter from './pageFooter/pageFooter';
+import DesignArena from './designArena/designArena';
+import Gallery from './gallery/gallery';
+import Profile from './profile/profile';
 
-    Sleevr = React.createClass({
-        render: function () {
+const mainComponents = [
+    NavBar,
+    StartPage,
+    PageFooter,
+    DesignArena,
+    Gallery,
+    Profile
+];
 
-            var self = this;
-            var count = 0;
-            var childComponents = mainComponents.map(function (component) {
-                var props = _.assign({ key: 'component' + count++ }, self.props);
-                return React.createElement(component, props);
-            });
+const { div } = React.DOM;
 
-            return React.createElement('div', {
-                className: 'app-block',
-                key: 'main-app'
-            },
-            childComponents);
-        }
-    });
+class Sleevr extends React.Component {
+    constructor (props) {
+        // ES2015 version of getInitialState
+        super(props);
+        this.state = {};
+    }
 
-    ReactDOM.render(React.createElement(Sleevr, baseProps), document.getElementById('sleevr'));
-})();
+    render () {
+
+        let childComponents = mainComponents.map(component => {
+            let props = _.assign({ key: `${component.name}Component` }, this.props);
+            return React.createElement(component, props);
+        });
+
+        return div({
+            className: 'app-block',
+            key: 'main-app'
+        }, childComponents);
+    }
+
+};
+
+Sleevr.propTypes = {
+    navItems: React.PropTypes.array,
+    landingPageGalleryImageCount: React.PropTypes.number
+};
+
+Sleevr.defaultProps = {
+    landingPageGalleryImageCount: 12,
+    navItems: [
+        { link: '/home', title: 'Home' },
+        { link: '/design-arena', title: 'Design' },
+        { link: '/gallery', title: 'Gallery' },
+        { link: '/profile', title: 'Profile' }
+    ]
+};
+
+(() => ReactDOM.render(
+    React.createElement(Sleevr, Sleevr.defaultProps),
+    document.getElementById('sleevr'))
+)();

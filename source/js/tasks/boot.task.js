@@ -1,21 +1,24 @@
-var gulp = require('gulp'),
-    reload = require('gulp-livereload'),
-    concat = require('gulp-concat'),
-    uglify = require('gulp-uglify'),
-    rename = require('gulp-rename'),
-    babel = require('gulp-babel'),
-    size = require('gulp-size'),
-    browserify = require('browserify'),
-    watchify = require('watchify'),
-    source = require('vinyl-source-stream'),
-    buffer = require('vinyl-buffer'),
-    // nodemon = require('gulp-nodemon'),
-    browserSync = require('browser-sync').create(),
-    reload = browserSync.reload,
-    gulpConstants = require('../constants/gulp.constants');
+import gulp from 'gulp';
+import concat from 'gulp-concat';
+import uglify from 'gulp-uglify';
+import rename from 'gulp-rename';
+import babel from 'gulp-babel';
+import size from 'gulp-size';
+import browserify from 'browserify';
+import watchify from 'watchify';
+import source from 'vinyl-source-stream';
+import buffer from 'vinyl-buffer';
 
-function bootTask () {
-        
+// import nodemon from 'gulp-nodemon';
+import gulpConstants from '../constants/gulp.constants';
+import utils from 'gulp-util';
+import bSync from 'browser-sync';
+
+const browserSync = bSync.create();
+const reload = browserSync.reload;
+
+const bootTask = (() => {
+
     // /*
     // ########################
     // ###### Boot Tasks ######
@@ -25,7 +28,7 @@ function bootTask () {
     // // Task for starting nodemon to use a local express server
     // gulp.task('nodemon', function (callback) {
 
-    //   var started = false;
+    //   const started = false;
 
     //   return nodemon({
     //     script: 'server.js',
@@ -52,53 +55,58 @@ function bootTask () {
     //     port: 5000
     //   });
     // });
-    gulp.task('browser:sync', function() {
-      browserSync.init({
-        server: {
-          baseDir: './'
-        },
-        port: 9000
-      });
-      console.log(browserSync)
+    gulp.task('browser:sync', () =>
+        browserSync.init({
+            server: {
+                baseDir: './'
+            },
+            port: 9000
+        })
+    );
+
+    gulp.task('browserify', () => {
+
+        const bundler = browserify({
+            entries: ['source/js/app.js'],
+            transform: [
+              [
+                'babelify'
+              ]
+            ],
+            debug: true,
+            cache: {},
+            packageCache: {},
+            fullPaths: true
+        });
+        const watcher = watchify(bundler);
+
+        const bundleScripts = () =>
+            watcher.bundle()
+                  .on('error', utils.log)
+                  .pipe(source('app.js'))
+                  .pipe(buffer())
+                  .pipe(size({
+                      showFiles: true,
+                      title: '######## Initial ----Core---- JS size ########'
+                  }))
+                  .pipe(babel())
+                  .on('error', utils.log)
+                  .pipe(concat('scripts'))
+                  .pipe(rename({
+                      extname: '.min.js'
+                  }))
+
+                  // .pipe(uglify())
+                  .pipe(size({
+                      showFiles: true,
+                      title: '######## Final compressed ----Core---- JS size ########'
+                  }))
+                  .pipe(gulp.dest(gulpConstants.paths.buildJs))
+                  .pipe(reload({ stream: true }));
+
+        watcher.on('update', bundleScripts);
+        return bundleScripts();
     });
+})();
 
-    gulp.task('browserify', function() {
-
-      var bundler = browserify({
-        entries: ['source/js/app.js'],
-        debug: true,
-        cache: {},
-        packageCache: {},
-        fullPaths: true
-      });
-      var watcher = watchify(bundler);
-
-      var bundleScripts = function(){
-
-        return watcher.bundle()
-              .pipe(source('app.js'))
-              .pipe(buffer())
-              .pipe(size({
-                showFiles: true,
-                title: '######## Initial ----Core---- JS size ########'
-              }))
-              //.pipe(babel())
-              .pipe(concat('scripts'))
-              .pipe(rename({
-                extname: '.min.js'
-              }))
-              // .pipe(uglify())
-              .pipe(size({
-                showFiles: true,
-                title: '######## Final compressed ----Core---- JS size ########'
-              }))
-              .pipe(gulp.dest(gulpConstants.paths.buildJs))
-              .pipe(reload({stream: true}));
-      };
-
-      watcher.on('update', bundleScripts);
-      return bundleScripts();
-    });    
-}
-
-module.exports = bootTask();
+export default bootTask;

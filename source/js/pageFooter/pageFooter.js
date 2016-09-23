@@ -1,8 +1,18 @@
-var React = require('react');
+import React from 'react';
 
-var PageFooter = React.createClass({
-  render: function(){
-    return React.createElement('footer', this.props.copyright);
-  }
-});
-module.exports = PageFooter;
+const { footer } = React.DOM;
+
+class PageFooter extends React.Component {
+
+    constructor (props) {
+        super(props);
+        this.state = {};
+    }
+
+    render () {
+        return footer(null, this.props.copyright);
+    }
+
+}
+
+export default PageFooter;

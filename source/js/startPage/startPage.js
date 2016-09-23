@@ -1,50 +1,50 @@
-var React = require('react'),
-    h4 = React.DOM.h4,
-    h5 = React.DOM.h5,
-    h1 = React.DOM.h1,
-    ul = React.DOM.ul,
-    li = React.DOM.li,
-    p = React.DOM.p,
-    div = React.DOM.div,
-    section = React.DOM.section,
-    span = React.DOM.span,
-    button = React.DOM.button,
-    _ = require('lodash'),
-    Masthead = require('./masthead'),
-    startPageConstants = require('../constants/startPage.constants'),
-    StartPage;
+import React from 'react';
+import _ from 'lodash';
+import Masthead from './masthead';
+import startPageConstants from '../constants/startPage.constants';
 
-StartPage = React.createClass({
-    render: function () {
-        var pitch = startPageConstants.pitchBlock;
-        var jumbotron = startPageConstants.jumbotron;
-        var masthead = React.createElement(Masthead, _.assign({ key: 'masthead' , className: 'masthead'}, this.props));
+const { h1, h4, h5, ul, li, p, div, section, span, button } = React.DOM;
 
-        var jumbotronText = div({ className: 'row' },
+class StartPage extends React.Component {
+
+    constructor (props) {
+        super(props);
+        this.state = {};
+    }
+
+    render () {
+        const pitch = startPageConstants.pitchBlock;
+        const jumbotron = startPageConstants.jumbotron;
+        const masthead = React.createElement(Masthead, _.assign({
+            key: Masthead.name,
+            className: 'masthead'
+        }, this.props));
+
+        const jumbotronText = div({ key: 'jumbotron', className: 'row' },
              div({
                 className:'col-lg-12 jumbotron text-center'
             }, [
-                h1({ key: 'title', className: 'title' }, jumbotron.title ),
-                h5({ key: 'subtitle' }, jumbotron.subtitle )
+                h1({ key: 'title', className: 'title' }, jumbotron.title),
+                h5({ key: 'subtitle' }, jumbotron.subtitle)
             ]));
 
-        var actionBtn = button({
+        const actionBtn = button({
             className: 'btn btn-success',
             key: 'goBtn',
-            onClick: function () {
+            onClick: () => {
                 console.log('Dispatcher Emit even to load Design Arena');
             }
         }, pitch.go);
 
-        var pitchBlock = div({ className: 'row' },
+        const pitchBlock = div({ key: 'pitchBlock', className: 'row' },
             div({
                 className:'col-lg-12 main-content'
             }, [
                 h4({ key: 'questionHeader' }, pitch.questionHeader),
                 ul({ key: 'questionList' }, [
-                    li({ key: 'question1'}, pitch.questionOne),
-                    li({ key: 'question2'}, pitch.questionTwo),
-                    li({ key: 'question3'}, pitch.questionThree),
+                    li({ key: 'question1' }, pitch.questionOne),
+                    li({ key: 'question2' }, pitch.questionTwo),
+                    li({ key: 'question3' }, pitch.questionThree),
                 ]),
                 p({ key: 'answer' }, pitch.answerOneIntro),
                 p({ key: 'relationBlock' }, pitch.relation),
@@ -52,12 +52,11 @@ StartPage = React.createClass({
                 actionBtn
             ]));
 
-        var components = section({ className: 'container' }, [
+        return section({ key: 'startPage', className: 'container' }, [
             masthead, jumbotronText, pitchBlock
         ]);
 
-        return components;
     }
-});
+}
 
-module.exports = StartPage;
+export default StartPage;

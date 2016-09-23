@@ -1,16 +1,16 @@
-var gulp = require('gulp'),
-    reload = require('gulp-livereload'),
-    concat = require('gulp-concat'),
-    rename = require('gulp-rename'),
-    nano = require('gulp-cssnano'),
-    sass = require('gulp-sass'),
-    size = require('gulp-size'),
-    autoprefixer = require('gulp-autoprefixer'),
-    browserSync = require('browser-sync').create(),
-    reload = browserSync.reload,
-    gulpConstants = require('../constants/gulp.constants');
+import gulp from 'gulp';
+import concat from 'gulp-concat';
+import rename from 'gulp-rename';
+import nano from 'gulp-cssnano';
+import sass from 'gulp-sass';
+import size from 'gulp-size';
+import autoprefixer from 'gulp-autoprefixer';
+import bSync from 'browser-sync';
+import gulpConstants from '../constants/gulp.constants';
+const browserSync = bSync.create();
+const reload = browserSync.reload;
 
-function stylesTask() {
+const stylesTask = (() => {
 
     /*
     ########################
@@ -18,47 +18,47 @@ function stylesTask() {
     ########################
     */
 
-    gulp.task('sassy:compression', ['sassy:clean'], function(){
-      return gulp.src('source/sass/styles.scss')
+    gulp.task('sassy:compression', ['sassy:clean'], () =>
+        gulp.src('source/sass/styles.scss')
             .pipe(size({
-              showFiles: true,
-              title: '######## Initial ----Core---- SASS size #######'
+                showFiles: true,
+                title: '######## Initial ----Core---- SASS size #######'
             }))
-            .pipe(sass({errLogToConsole: true}))
+            .pipe(sass({ errLogToConsole: true }))
             .pipe(concat('styles'))
             .pipe(rename({
-              extname: '.min.css'
+                extname: '.min.css'
             }))
             .pipe(nano())
             .pipe(size({
-              showFiles: true,
-              title: '####### Final ----Core---- SASS size #######'
+                showFiles: true,
+                title: '####### Final ----Core---- SASS size #######'
             }))
             .pipe(gulp.dest(gulpConstants.paths.buildCss))
-            .pipe(reload({stream: true}));
-    });
+            .pipe(reload({ stream: true }))
+    );
 
-    gulp.task('lib:combine:sass', function(){
-      return gulp.src(['node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss'])
+    gulp.task('lib:combine:sass', () =>
+        gulp.src(['node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss'])
             .pipe(size({
-              showFiles: true,
-              title: '######## Initial ----Lib---- SASS size #######'
+                showFiles: true,
+                title: '######## Initial ----Lib---- SASS size #######'
             }))
-            .pipe(sass({errLogToConsole: true}))
+            .pipe(sass({ errLogToConsole: true }))
             .pipe(autoprefixer({
-              browsers: ['last 2 versions']
+                browsers: ['last 2 versions']
             }))
             .pipe(concat('lib'))
             .pipe(rename({
-              extname: '.min.css'
+                extname: '.min.css'
             }))
             .pipe(nano())
             .pipe(size({
-              showFiles: true,
-              title: '####### Final compressed ----Lib---- SASS size #######'
+                showFiles: true,
+                title: '####### Final compressed ----Lib---- SASS size #######'
             }))
-            .pipe(gulp.dest(gulpConstants.paths.buildCss));
-    });
-}
+            .pipe(gulp.dest(gulpConstants.paths.buildCss))
+    );
+})();
 
-module.exports = stylesTask();
+export default stylesTask;

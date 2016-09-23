@@ -1,10 +1,17 @@
-var React = require('react'),
-    GalleryImageList = require('../gallery/galleryImageList');
+import React from 'react';
+import GalleryImageList from '../gallery/galleryImageList';
 
-var Masthead = React.createClass({
-  render: function (props) {
-    
-    return React.createElement(GalleryImageList, this.props);
-  }
-});
-module.exports = Masthead;
+class Masthead extends React.Component {
+
+    constructor (props) {
+        super(props);
+        this.state = {};
+    }
+
+    render () {
+        return React.createElement(GalleryImageList, this.props);
+    }
+
+}
+
+export default Masthead;

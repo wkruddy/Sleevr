@@ -1,29 +1,32 @@
-var React = require('react'),
-    a = React.DOM.a,
-    li = React.DOM.li,
-    ul = React.DOM.ul,
-    _ = require('lodash'),
-    NavLinks;
+import React from 'react';
+import _ from 'lodash';
 
-NavLinks = React.createClass({
+const { a, li, ul } = React.DOM;
 
-  render: function () {
-    var childListItems = this.props.navItems.map(function (navItem) {
-      var link = a({
-                  href: navItem.link
-                }, navItem.title);
+class NavLinks extends React.Component {
 
-      return li({
-              key: navItem.title
-            }, link);
-    });
+    constructor (props) {
+        super(props);
+        this.state = {};
+    }
 
-    return ul({
-      key: 'navLinks',
-      className: 'nav navbar-nav navbar-right list-unstyled',
-    }, childListItems);
-  }
-  
-});
+    render () {
+        const childLinkComponents = this.props.navItems.map(navItem =>
 
-module.exports = NavLinks;
+            li({ key: navItem.title },
+                a({
+                    key: `${navItem.title}Link`,
+                    href: navItem.link
+                }, navItem.title)
+            )
+        );
+
+        return ul({
+            key: 'navLinks',
+            className: 'nav navbar-nav navbar-right list-unstyled',
+        }, childLinkComponents);
+    }
+
+}
+
+export default NavLinks;

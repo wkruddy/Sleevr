@@ -1,43 +1,49 @@
-var React = require('react');
+import React from 'react';
 
-var GalleryImageList = React.createClass({
-    render: function () {
+const { img, div, section } = React.DOM;
 
-        var count = this.props.landingPageGalleryImageCount;
+class GalleryImageList extends React.Component {
 
-        var listItems = [];
+    constructor (props) {
+        super(props);
+        this.state = {};
+    }
+
+    render () {
+
+        let count = this.props.landingPageGalleryImageCount;
+
+        let listItems = [];
         while (count > 0) {
-            var image = React.createElement('img', {
+            const image = img({
                 className: 'img-responsive',
-                key: 'gallery-image' + count,
-                src: '/assets/images/sm-sleeve-image-' + count + '.png'
+                key: `gallery-image${count}`,
+                src: `/assets/images/sm-sleeve-image-${count}.png`
             });
 
-            var listItem = React.createElement('div', {
-                className: 'col-xs-2 col-md-2 sleeve-image-' + count,
-                key: 'gallery-list-item' + count,
-                title: 'Image' + count
+            const listItem = div({
+                className: `col-xs-2 col-md-2 sleeve-image-${count}`,
+                key: `gallery-list-item${count}`,
+                title: `Image${count}`
             }, image);
 
             listItems.push(listItem);
             count--;
         }
 
-        var listItemBox = React.createElement('div', {
-            className: 'col-lg-12',
-            key: 'list-item-box'
-        }, listItems);
-
-        var listContainer = React.createElement('div', {
-            className: 'row sleeve-gallery-row',
-            key: 'sleeve-gallery-row'
-        }, listItemBox);
-
-        return React.createElement('section', {
+        return section({
             className: 'gallery-image-list-block',
             key: 'gallery-image-list'
-        }, listContainer);
+        }, div({
+                className: 'row sleeve-gallery-row',
+                key: 'sleeve-gallery-row'
+            }, div({
+                    className: 'col-lg-12',
+                    key: 'list-item-box'
+                }, listItems)
+            )
+        );
     }
-});
+}
 
-module.exports = GalleryImageList;
+export default GalleryImageList;

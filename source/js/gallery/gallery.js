@@ -1,12 +1,20 @@
-var React = require('react');
+import React from 'react';
 
-var Gallery = React.createClass({
-  render: function () {
-    
-    return React.createElement('section', {
-        className: 'gallery-block',
-        key: 'gallery'
-    });
-  }
-});
-module.exports = Gallery;
+class Gallery extends React.Component {
+
+    constructor (props) {
+        super(props);
+        this.state = {};
+    }
+
+    render () {
+
+        return React.createElement('section', {
+            className: 'gallery-block',
+            key: 'gallery'
+        });
+    }
+
+}
+
+export default Gallery;
