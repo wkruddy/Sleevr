@@ -8,7 +8,14 @@ class NavBar extends React.Component {
 
     constructor (props) {
         super(props);
-        this.state = {};
+        this.state = {
+            navItems: [
+                { link: '/home', title: 'Home' },
+                { link: '/design-arena', title: 'Design' },
+                { link: '/gallery', title: 'Gallery' },
+                { link: '/profile', title: 'Profile' }
+            ]
+        };
     }
 
     render () {
@@ -20,9 +27,9 @@ class NavBar extends React.Component {
             }, div({
                     className: 'navbar-brand',
                     key: 'brand'
-                }, 'KL')
+                }, 'Sleevr')
             ),
-            React.createElement(NavLinks, _.assign({ key: 'nav-list' }, this.props))
+            React.createElement(NavLinks, _.assign({ key: 'nav-list' }, this.state))
         ]);
 
         let navProps = {

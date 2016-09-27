@@ -1,6 +1,6 @@
 import React from 'react';
 
-const section = React.DOM.section;
+const { section, ul, li, div} = React.DOM;
 
 class Sidebar extends React.Component {
 
@@ -10,12 +10,27 @@ class Sidebar extends React.Component {
     }
 
     render () {
-        const sidebarToolBox = section({
-            className: 'sidebar-tools',
-            key: 'sidebarToolBox'
-        }, []);
+        const sidebarItems = this.props.sidebarItems.map(item =>
+            li({
+                key: item.key,
+                className: 'sidebar-tool'
+            }, item.title)
+        );
 
-        return sidebarToolBox;
+        const header = div({
+            key: 'sidebar-header', 
+            className: 'sidebar-header'
+        }, this.props.sidebarHeader);
+
+        const sidebarList = ul({
+            key: 'sidebar-list',
+            classNamr: 'sidebar-list'
+        }, sidebarItems);
+
+        return section({
+            className: 'sidebar-box',
+            key: 'sidebar-box'
+        }, [ header, sidebarList ]);
     }
 
 }

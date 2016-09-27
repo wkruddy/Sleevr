@@ -34,8 +34,8 @@ class Sleevr extends React.Component {
     render () {
 
         let childComponents = mainComponents.map(component => {
-            let props = _.assign({ key: `${component.name}Component` }, this.props);
-            return React.createElement(component, props);
+            let childProps = _.assign({ key: `${component.name}Component` }, this.props);
+            return React.createElement(component, childProps);
         });
 
         return div({
@@ -47,18 +47,10 @@ class Sleevr extends React.Component {
 };
 
 Sleevr.propTypes = {
-    navItems: React.PropTypes.array,
-    landingPageGalleryImageCount: React.PropTypes.number
+
 };
 
 Sleevr.defaultProps = {
-    landingPageGalleryImageCount: 12,
-    navItems: [
-        { link: '/home', title: 'Home' },
-        { link: '/design-arena', title: 'Design' },
-        { link: '/gallery', title: 'Gallery' },
-        { link: '/profile', title: 'Profile' }
-    ]
 };
 
 (() => ReactDOM.render(

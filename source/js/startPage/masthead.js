@@ -5,11 +5,13 @@ class Masthead extends React.Component {
 
     constructor (props) {
         super(props);
-        this.state = {};
+        this.state = {
+            landingPageGalleryImageCount: 12
+        };
     }
 
     render () {
-        return React.createElement(GalleryImageList, this.props);
+        return React.createElement(GalleryImageList, this.state);
     }
 
 }
