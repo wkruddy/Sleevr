@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import _ from 'lodash';
 
 const { a, li, ul } = React.DOM;
 
-class NavLinks extends React.Component {
+class NavLinks extends Component {
 
     constructor (props) {
         super(props);

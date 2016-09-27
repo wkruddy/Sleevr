@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 const { section } = React.DOM;
@@ -26,7 +27,7 @@ class DrawingBoard extends React.Component {
     }
 
     craftSleeveComponents () {
-        return React.createElement()
+        return React.createElement();
     }
 }
 

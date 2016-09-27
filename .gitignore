@@ -2,3 +2,4 @@ Learning.coffee
 ng-module.js
 .DS_Store
 node_modules/
+*.map

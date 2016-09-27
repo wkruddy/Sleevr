@@ -24,10 +24,5 @@ body {
 @for $i from 1 through 12 {
   .#{$class-slug}-#{$i} {
     padding: 0;
-    // width: 100%;
-    // display: block;
-    // height: 370px;
-    // margin: 0 auto;
-    // background: url("../../assets/images/sm-sleeve-image-#{$i}.png") no-repeat;
   }
 }

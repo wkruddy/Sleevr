@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 const { img, div, section } = React.DOM;
 
-class GalleryImageList extends React.Component {
+class GalleryImageList extends Component {
 
     constructor (props) {
         super(props);

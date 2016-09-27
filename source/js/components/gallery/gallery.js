@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-class Gallery extends React.Component {
+const { section } = React.DOM;
+
+class Gallery extends Component {
 
     constructor (props) {
         super(props);
@@ -9,7 +11,7 @@ class Gallery extends React.Component {
 
     render () {
 
-        return React.createElement('section', {
+        return section({
             className: 'gallery-block',
             key: 'gallery'
         });

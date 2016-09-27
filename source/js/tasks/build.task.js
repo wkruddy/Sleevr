@@ -13,11 +13,15 @@ const buildTask = (() => {
     ########################
     */
 
-    gulp.task('build', ['lib:compile', 'browserify', 'sassy:compression'], () => {
+    gulp.task('build:dist', ['lib:compile', 'browserify:dist', 'sassy:compression'], () => {
         utils.log('################ Gulp Watching for Changes! ################');
     });
 
-    gulp.task('default', ['build', 'browser:sync'], () => {
+    gulp.task('build:dev', ['lib:compile', 'browserify:dev', 'sassy:compression'], () => {
+        utils.log('################ Gulp Watching for Changes! ################');
+    });
+
+    gulp.task('default', ['build:dev', 'browser:sync'], () => {
         utils.log('################ Gulp Default Process Running! ################');
         gulp.watch('*.html', reload);
 

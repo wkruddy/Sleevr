@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import _ from 'lodash';
 import Masthead from './masthead';
-import startPageConstants from '../constants/startPage.constants';
+import startPageConstants from '../../constants/startPage.constants';
 
 const { h1, h4, h5, ul, li, p, div, section, span, button } = React.DOM;
 
-class StartPage extends React.Component {
+class StartPage extends Component {
 
     constructor (props) {
         super(props);

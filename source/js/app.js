@@ -1,42 +1,60 @@
-// Initial react controller view
-
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
-import ReactDOM from 'react-dom';
-import NavBar from './navBar/navBar';
-import StartPage from './startPage/startPage';
-import PageFooter from './pageFooter/pageFooter';
-import DesignArena from './designArena/designArena';
-import Gallery from './gallery/gallery';
-import Profile from './profile/profile';
+import Routes from './routes';
 
-const mainComponents = [
-    NavBar,
-    // StartPage,
-    DesignArena,
-    PageFooter,
-    Gallery,
-    Profile
-];
+import NavBar from './components/navBar/navBar';
+// import StartPage from './components/startPage/startPage';
+import PageFooter from './components/pageFooter/pageFooter';
+// import DesignArena from './components/designArena/designArena';
+// import Gallery from './components/gallery/gallery';
+// import Profile from './components/profile/profile';
+
+/* This is the initial React ControllerView */
 
 const { div } = React.DOM;
 
-class Sleevr extends React.Component {
+// const mainComponents = [
+//     NavBar,
+//     MainLayout
+//     // StartPage,
+//     PageFooter,
+//     // DesignArena,
+//     // Gallery,
+//     // Profile
+// ];
+
+
+class App extends React.Component {
     constructor (props) {
         // ES2015 version of getInitialState
         super(props);
-        this.state = {};
+
+        this.state = {
+            viewportContentComponent: div(null, '')
+        };
     }
 
     render () {
 
-        let childComponents = mainComponents.map(component => {
-            let childProps = _.assign({ key: `${component.name}Component` }, this.props);
-            return React.createElement(component, childProps);
-        });
+        // let childComponents = mainComponents.map(component => {
+        //     let childProps = _.assign({ key: `${component.name}Component` }, this.props);
+        //     return React.createElement(component, childProps);
+        // });
+
+        const MainLayout = div(_.assign({
+            key: 'viewport-component',
+            className: 'viewport'
+        }, this.props), this.state.viewportContentComponent);
+
+        const childComponents = [
+            React.createElement(NavBar, _.assign({ key: 'nav-bar-component' }, this.state)),
+            MainLayout,
+            React.createElement(PageFooter, _.assign({ key: 'page-footer-component' }, this.state))
+        ];
 
         return div({
             className: 'app-block',
@@ -44,16 +62,18 @@ class Sleevr extends React.Component {
         }, childComponents);
     }
 
-};
+    componentDidMount () {
+        this.setState({ viewportContentComponent: Routes });
+    }
+}
 
-Sleevr.propTypes = {
+App.propTypes = {};
 
-};
+App.defaultProps = {};
 
-Sleevr.defaultProps = {
-};
+// export default App;
 
 (() => ReactDOM.render(
-    React.createElement(Sleevr, Sleevr.defaultProps),
-    document.getElementById('sleevr'))
-)();
+    React.createElement(App, {}), document.getElementById('sleevr')
+))();
+

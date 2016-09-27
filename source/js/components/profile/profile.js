@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 const { section } = React.DOM;
 
-class Profile extends React.Component {
+class Profile extends Component {
 
     constructor (props) {
         super(props);
