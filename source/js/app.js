@@ -15,9 +15,9 @@ import Profile from './profile/profile';
 
 const mainComponents = [
     NavBar,
-    StartPage,
-    PageFooter,
+    // StartPage,
     DesignArena,
+    PageFooter,
     Gallery,
     Profile
 ];
