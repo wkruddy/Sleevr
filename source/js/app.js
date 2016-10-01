@@ -48,7 +48,7 @@ class App extends React.Component {
         const MainLayout = div(_.assign({
             key: 'viewport-component',
             className: 'viewport'
-        }, this.props), this.state.viewportContentComponent);
+        }), this.props.children);
 
         const childComponents = [
             React.createElement(NavBar, _.assign({ key: 'nav-bar-component' }, this.state)),
@@ -63,7 +63,7 @@ class App extends React.Component {
     }
 
     componentDidMount () {
-        this.setState({ viewportContentComponent: Routes });
+        // this.setState({ viewportContentComponent: Routes });
     }
 }
 
@@ -71,9 +71,9 @@ App.propTypes = {};
 
 App.defaultProps = {};
 
-// export default App;
+export default App;
 
-(() => ReactDOM.render(
-    React.createElement(App, {}), document.getElementById('sleevr')
-))();
+// (() => ReactDOM.render(
+//     React.createElement(App, {}), document.getElementById('sleevr')
+// ))();
 

@@ -3,6 +3,12 @@ import _ from 'lodash';
 import Masthead from './masthead';
 import startPageConstants from '../../constants/startPage.constants';
 
+
+import { Link } from 'react-router';
+
+const ReactLink = React.createFactory(Link);
+
+
 const { h1, h4, h5, ul, li, p, div, section, span, button } = React.DOM;
 
 class StartPage extends Component {
@@ -50,6 +56,10 @@ class StartPage extends Component {
                 p({ key: 'relationBlock' }, pitch.relation),
                 span({ key: 'getStarted' }, pitch.started),
                 actionBtn
+                // ReactLink({
+                //     to: '/design-arena',
+                //     key: 'key1'
+                // }, 'Go')
             ]));
 
         return section({ key: 'startPage', className: 'container' }, [

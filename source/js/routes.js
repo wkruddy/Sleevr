@@ -1,58 +1,72 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, DefaultRoute, NotFoundRoute, useRouterHistory }from 'react-router';
-// import { Router, Route, Link, IndexRoute, hashHistory, browserHistory } from 'react-router';
-
+import { Router, Route, IndexRoute, NotFoundRoute, useRouterHistory }from 'react-router';
 import { createHashHistory } from 'history';
-// useRouterHistory creates a composable higher-order function
-const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
 
-// import App from './app';
+import App from './app';
 import StartPage from './components/startPage/startPage';
+import DesignArena from './components/designArena/designArena';
+import Gallery from './components/gallery/gallery';
+import Profile from './components/profile/profile';
+
+// useRouterHistory creates a composable higher-order function
+const appHistory = useRouterHistory(createHashHistory)({ queryKey: false });
 
 
 const ReactRoute = React.createFactory(Route);
-const ReactDefaultRoute = React.createFactory(DefaultRoute);
+const ReactIndexRoute = React.createFactory(IndexRoute);
 const ReactNotFoundRoute = React.createFactory(NotFoundRoute);
 
 
 // React.render((
 //   React.createElement(Router, {location: "history"},
-//     Route({path: "/", handler: App},
-//       DefaultRoute({handler: Home}),
-//       Route({name: "about", handler: About}),
-//       Route({name: "users", handler: Users},
-//         Route({name: "recent-users", path: "recent", handler: RecentUsers}),
-//         Route({name: "user", path: "/user/:userId", handler: User}),
-//         NotFoundRoute({handler: UserRouteNotFound})
+//     ReactRoute({path: "/", component: App},
+//       ReactIndexRoute({component: Home}),
+//       ReactRoute({name: "about", component: About}),
+//       ReactRoute({name: "users", component: Users},
+//         ReactRoute({name: "recent-users", path: "recent", component: RecentUsers}),
+//         ReactRoute({name: "user", path: "/user/:userId", component: User}),
+//         NotFoundRoute({component: UserRouteNotFound})
 //       )
 //     ),
-//     NotFoundRoute({handler: NotFound})
+//     NotFoundRoute({component: NotFound})
 //   )
 // ), document.body);
 
-// const StartPageRoute = ReactRoute({
-//   name: 'startPage',
-//   component: StartPage
-// });
-
-// const AppRoute = ReactRoute({
-//   path: '/',
-//   name: 'app',
-//   component: App
-// }, StartPageRoute);
-
-const AppRoute = ReactRoute({
-  path: '/',
-  name: 'app',
-  component: StartPage
+const StartPageRoute = ReactRoute({
+    path: '/home',
+    name: 'startPage',
+    component: StartPage
 });
 
+const DesignArenaRoute = ReactRoute({
+    path: '/design-arena',
+    name: 'designArena',
+    component: DesignArena
+});
 
-// (() => ReactDOM.render(
-//     React.createElement(Router, {history: appHistory}, AppRoute), document.getElementById('sleevr')
-// ))();
+const GalleryRoute = ReactRoute({
+    path: '/gallery',
+    name: 'gallery',
+    component: Gallery
+});
 
-const Routes = React.createElement(Router, {history: appHistory}, AppRoute);
+const ProfileRoute = ReactRoute({
+    path: '/profile',
+    name: 'profile',
+    component: Profile
+});
 
-export default Routes;
+const AppRoute = ReactRoute({
+    path: '/',
+    name: 'app',
+    component: App
+},  ReactIndexRoute({ component: StartPage }),
+    DesignArenaRoute,
+    GalleryRoute,
+    ProfileRoute
+);
+
+(() => ReactDOM.render(
+    React.createElement(Router, { history: appHistory }, AppRoute), document.getElementById('sleevr')
+))();

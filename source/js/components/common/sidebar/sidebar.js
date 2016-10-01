@@ -10,11 +10,13 @@ class Sidebar extends Component {
     }
 
     render () {
-        const sidebarItems = this.props.sidebarItems.map(item =>
-            li({
+        const sidebarItems = this.props.sidebarItems.map(item => {
+
+            return li({
                 key: item.key,
                 className: 'sidebar-tool'
-            }, item.title)
+            }, item.component || item.title)
+        }
         );
 
         const header = div({

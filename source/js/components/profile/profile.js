@@ -10,7 +10,7 @@ class Profile extends Component {
     }
 
     render () {
-        return section({});
+        return section(null);
     }
 
 }

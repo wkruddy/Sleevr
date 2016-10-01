@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
 import _ from 'lodash';
 import Sidebar from '../common/sidebar/sidebar';
 import ItemSelector from '../common/itemSelector/itemSelector';
+import constants from '../../constants/designArena.constants';
 
 const { div, button } = React.DOM;
+const { sleeveOptions, angleOptions } = constants;
 
-class SidebarTools extends React.Component {
+class SidebarTools extends Component {
 
     constructor (props) {
         super(props);
+
         this.state = {
             sidebarHeader: 'Tools',
             sidebarItems: [
@@ -18,6 +21,7 @@ class SidebarTools extends React.Component {
                     component: React.createElement(ItemSelector, {
                         key: 'itemSelector-pinLayout',
                         renderWithButton: false,
+                        selectorOptions: sleeveOptions,
                         onChange: (val) => {
                             console.log(val);
                             // set the selected value to the raw node?
@@ -30,6 +34,7 @@ class SidebarTools extends React.Component {
                     title: 'Viewing Angle',
                     component: React.createElement(ItemSelector, {
                         key: 'itemSelector-viewAngle',
+                        selectorOptions: angleOptions,
                         onChange: (val) => {
                             console.log(val);
                             // set the selected value to the raw node?
@@ -52,17 +57,8 @@ class SidebarTools extends React.Component {
                     })
                 }
             ],
-            sleeveOptions: [
-                {
-                    title: '24 Pin Motherboard',
-                    value: '24-pin-mobo'
-
-                },
-                {
-                    title: '12 Pin CPU',
-                    value: '12-pin-cpu'
-                }
-            ]
+            sleeveOptions,
+            angleOptions
         };
     }
 

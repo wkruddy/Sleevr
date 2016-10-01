@@ -10,7 +10,7 @@ class NavBar extends Component {
         super(props);
         this.state = {
             navItems: [
-                { link: '/home', title: 'Home' },
+                { link: '/', title: 'Home' },
                 { link: '/design-arena', title: 'Design' },
                 { link: '/gallery', title: 'Gallery' },
                 { link: '/profile', title: 'Profile' }

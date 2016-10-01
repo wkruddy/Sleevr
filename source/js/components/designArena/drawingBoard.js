@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const { section } = React.DOM;
@@ -23,11 +22,11 @@ class DrawingBoard extends React.Component {
 
     makeSleeves () {
         return this.props.sleevesInArena.map(sleeve =>
-            this.drawSleeve(sleeve));
+            this.craftSleeveComponents(sleeve));
     }
 
     craftSleeveComponents () {
-        return React.createElement();
+        return React.createElement('div', {});
     }
 }
 

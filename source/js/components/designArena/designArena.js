@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
+import _ from 'lodash';
 import SidebarTools from './sidebarTools';
 import DrawingBoard from './drawingBoard';
 
 const { section } = React.DOM;
 
-class DesignArena extends React.Component {
+class DesignArena extends Component {
 
     constructor (props) {
         super(props);

@@ -65,8 +65,8 @@ const bootTask = (() => {
         })
     );
      const bundler = browserify({
-          entries: ['source/js/app.js'],
-          // entries: ['source/js/routes.js'],
+          // entries: ['source/js/app.js'],
+          entries: ['source/js/routes.js'],
           transform: [
             [
               'babelify'
@@ -84,8 +84,8 @@ const bootTask = (() => {
         const bundleScriptsDist = () =>
             watcher.bundle()
                   .on('error', utils.log)
-                  .pipe(source('app.js'))
-                  // .pipe(source('routes.js'))
+                  // .pipe(source('app.js'))
+                  .pipe(source('routes.js'))
                   .pipe(buffer())
                   .pipe(size({
                       showFiles: true,
@@ -114,8 +114,8 @@ const bootTask = (() => {
         const bundleScriptsDev = () =>
             watcher.bundle()
                   .on('error', utils.log)
-                  .pipe(source('app.js'))
-                  // .pipe(source('routes.js'))
+                  // .pipe(source('app.js'))
+                  .pipe(source('routes.js'))
                   .pipe(buffer())
                   .pipe(sourcemaps.init({loadMaps: true}))
                   .pipe(size({
