@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 const { footer, div, em } = React.DOM;
 
-class PageFooter extends React.Component {
+class PageFooter extends Component {
 
     constructor (props) {
         super(props);
@@ -14,9 +14,9 @@ class PageFooter extends React.Component {
     render () {
 
         return footer({
-        	className: 'container'
-        }, div({ className: 'row'},
-        	div({ className: 'col-lg-12 text-center' },
+        	className: 'container-fluid'
+        }, div({ className: 'row page-footer-box' },
+        	div({ className: 'col-lg-12 text-center page-footer' },
         		em(null, this.state.copyright ))
         	)
         );

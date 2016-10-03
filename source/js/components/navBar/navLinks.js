@@ -4,7 +4,11 @@ import { Link } from 'react-router';
 
 const ReactLink = React.createFactory(Link);
 
-const { a, li, ul } = React.DOM;
+const { li, ul } = React.DOM;
+
+const activeStyle = {
+    borderBottom: '5px solid rgb(66, 249, 95)'
+};
 
 class NavLinks extends Component {
 
@@ -16,20 +20,18 @@ class NavLinks extends Component {
     render () {
         const childLinkComponents = this.props.navItems.map(navItem =>
 
-            li({ key: navItem.title },
+            li({ className: 'nav-link', key: navItem.title },
                 ReactLink({
                     to: navItem.link,
+                    activeStyle,
+                    onlyActiveOnIndex: navItem.activeOnIndex
                 }, navItem.title)
-                // a({
-                //     key: `${navItem.title}Link`,
-                //     href: navItem.link
-                // }, navItem.title)
             )
         );
 
         return ul({
-            key: 'navLinks',
             className: 'nav navbar-nav navbar-right list-unstyled',
+            key: 'navLinks'
         }, childLinkComponents);
     }
 

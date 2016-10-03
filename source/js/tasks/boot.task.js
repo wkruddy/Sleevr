@@ -10,7 +10,6 @@ import source from 'vinyl-source-stream';
 import sourcemaps from 'gulp-sourcemaps';
 import buffer from 'vinyl-buffer';
 
-// import nodemon from 'gulp-nodemon';
 import gulpConstants from '../constants/gulp.constants';
 import utils from 'gulp-util';
 import bSync from 'browser-sync';
@@ -26,36 +25,6 @@ const bootTask = (() => {
     // ########################
     // */
 
-    // // Task for starting nodemon to use a local express server
-    // gulp.task('nodemon', function (callback) {
-
-    //   const started = false;
-
-    //   return nodemon({
-    //     script: 'server.js',
-    //     ignore: [
-    //       'gulpfile.js',
-    //       'node_modules/',
-    //       gulpConstants.paths.sourceJs
-    //     ]
-    //   }).on('start', function () {
-    //     // Standard pattern for making sure nodemon doesn't init a bunch
-
-    //     if (!started) {
-    //       callback();
-    //       started = true;
-    //     }
-    //   });
-    // });
-
-    // Initialize BrowserSync with the port BS should run on,
-    // and the express server port
-    // gulp.task('browser:sync', ['nodemon'], function() {
-    //   browserSync.init(null, {
-    //     proxy: 'http://localhost:9000',
-    //     port: 5000
-    //   });
-    // });
     gulp.task('browser:sync', () =>
         browserSync.init({
             server: {
@@ -65,7 +34,6 @@ const bootTask = (() => {
         })
     );
      const bundler = browserify({
-          // entries: ['source/js/app.js'],
           entries: ['source/js/routes.js'],
           transform: [
             [
@@ -84,7 +52,6 @@ const bootTask = (() => {
         const bundleScriptsDist = () =>
             watcher.bundle()
                   .on('error', utils.log)
-                  // .pipe(source('app.js'))
                   .pipe(source('routes.js'))
                   .pipe(buffer())
                   .pipe(size({
@@ -114,7 +81,6 @@ const bootTask = (() => {
         const bundleScriptsDev = () =>
             watcher.bundle()
                   .on('error', utils.log)
-                  // .pipe(source('app.js'))
                   .pipe(source('routes.js'))
                   .pipe(buffer())
                   .pipe(sourcemaps.init({loadMaps: true}))

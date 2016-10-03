@@ -7,6 +7,10 @@
         &> li {
             &> a {
                 color: $bright-green;
+                &:focus,
+                &:hover {
+                    color: $bright-green-darker;
+                }
             }
         }
     }

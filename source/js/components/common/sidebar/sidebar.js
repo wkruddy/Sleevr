@@ -10,29 +10,27 @@ class Sidebar extends Component {
     }
 
     render () {
-        const sidebarItems = this.props.sidebarItems.map(item => {
-
-            return li({
-                key: item.key,
-                className: 'sidebar-tool'
+        const sidebarItems = this.props.sidebarItems.map(item =>
+            li({
+                className: 'sidebar-tool',
+                key: item.key
             }, item.component || item.title)
-        }
         );
 
         const header = div({
-            key: 'sidebar-header',
-            className: 'sidebar-header'
+            className: 'sidebar-header',
+            key: 'sidebarHeader',
         }, this.props.sidebarHeader);
 
         const sidebarList = ul({
-            key: 'sidebar-list',
-            classNamr: 'sidebar-list'
+            classNamr: 'sidebar-list',
+            key: 'sidebarList'
         }, sidebarItems);
 
         return section({
             className: 'sidebar-box',
-            key: 'sidebar-box'
-        }, [ header, sidebarList ]);
+            key: 'sidebarBox'
+        }, [header, sidebarList]);
     }
 
 }

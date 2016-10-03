@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 const { select, option, button, div, h4 } = React.DOM;
 
-class ItemSelector extends React.Component {
+class ItemSelector extends Component {
 
     constructor (props) {
         super(props);
@@ -17,16 +17,16 @@ class ItemSelector extends React.Component {
         const actionButton = this.makeActionButton();
 
         return div({
-            key: `itemSelectBox-${this.propsSelectorTitle}`,
-            className: 'item-selector box'
+            className: 'item-selector box',
+            key: `itemSelectBox-${this.propsSelectorTitle}`
         }, [
             h4({
-                key: `itemSelectorHeader-${this.propsSelectorTitle}`,
-                className: 'item-selector header-title'
+                className: 'item-selector header-title',
+                key: `itemSelectorHeader-${this.propsSelectorTitle}`
             }, this.props.propsSelectorTitle),
             select({
-                key: `itemSelector-${this.propsSelectorTitle}`,
                 className: 'item-selector selector',
+                key: `itemSelector-${this.propsSelectorTitle}`,
                 onChange: this.props.onChange
             }, [selectorOptions]),
             actionButton
@@ -36,8 +36,8 @@ class ItemSelector extends React.Component {
     makeActionButton () {
         if (this.props.renderWithButton) {
             return button({
-                key: `itemSelectorActionBtn-${this.propsSelectorTitle}`,
-                className: 'item-selector action-btn'
+                className: 'item-selector action-btn',
+                key: `itemSelectorActionBtn-${this.propsSelectorTitle}`
             });
         } else {
             return [];

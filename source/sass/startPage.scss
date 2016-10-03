@@ -1,0 +1,16 @@
+.container {
+  .jumbotron {
+    background-color: $slate;
+    @include border-top-radius(0px);
+  }
+}
+
+.sleeve-gallery-row {
+  background-color: $slate;
+}
+
+@for $i from 1 through 12 {
+  .#{$class-slug}-#{$i} {
+    padding: 0;
+  }
+}

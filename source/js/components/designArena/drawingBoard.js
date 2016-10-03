@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 const { section } = React.DOM;
 
-class DrawingBoard extends React.Component {
+class DrawingBoard extends Component {
 
     constructor (props) {
         super(props);
@@ -13,7 +13,7 @@ class DrawingBoard extends React.Component {
         const sleeveSet = this.makeSleeves();
 
         const drawingBoardBox = section({
-            className: 'drawing-board',
+            className: 'drawing-board col-lg-9 col-md-9',
             key: 'drawingBoardBox'
         }, sleeveSet);
 

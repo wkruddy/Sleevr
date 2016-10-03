@@ -3,7 +3,10 @@ import _ from 'lodash';
 import SidebarTools from './sidebarTools';
 import DrawingBoard from './drawingBoard';
 
-const { section } = React.DOM;
+import constants from '../../constants/designArena.constants';
+
+const { section, div, h2 } = React.DOM;
+const { displayValues } = constants;
 
 class DesignArena extends Component {
 
@@ -20,14 +23,22 @@ class DesignArena extends Component {
 
     render () {
         const designBox = section({
-            className: 'design-arena',
+            className: 'design-arena container main-content',
             key: 'designArenaBox'
         }, [
-            React.createElement(SidebarTools,
-                _.assign({ key: 'sidebarTools' }, this.state)),
-            React.createElement(DrawingBoard,
-                _.assign({ key: 'drawingBoard' }, this.state))
-        ]);
+                h2({
+                    className: 'row container-header',
+                    key: 'containerHeader'
+                }, displayValues.header),
+                div({ className: 'row', key: 'designArena' }, [
+                    React.createElement(SidebarTools,
+                        _.assign({ key: 'sidebarTools' }, this.state)),
+                    React.createElement(DrawingBoard,
+                        _.assign({ key: 'drawingBoard' }, this.state))
+                    ]
+                )
+            ]
+        );
 
         return designBox;
     }

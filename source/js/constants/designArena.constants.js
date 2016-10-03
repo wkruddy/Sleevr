@@ -32,4 +32,8 @@ const angleOptions = [
     }
 ];
 
-export default { angleOptions, sleeveOptions };
+const displayValues = {
+    header: 'Design Arena'
+};
+
+export default { angleOptions, sleeveOptions, displayValues };

@@ -9,20 +9,3 @@ body {
   @include border-bottom-radius(5px);
   @include box-shadow(0px 2px 10px 1px $grey-very-light);
 }
-
-.container {
-  .jumbotron {
-    background-color: $slate;
-    @include border-top-radius(0px);
-  }
-}
-
-.sleeve-gallery-row {
-  background-color: $slate;
-}
-
-@for $i from 1 through 12 {
-  .#{$class-slug}-#{$i} {
-    padding: 0;
-  }
-}

@@ -17,13 +17,13 @@ class GalleryImageList extends Component {
         while (count > 0) {
             const image = img({
                 className: 'img-responsive',
-                key: `gallery-image${count}`,
+                key: `galleryImage${count}`,
                 src: `/assets/images/sm-sleeve-image-${count}.png`
             });
 
             const listItem = div({
                 className: `col-xs-2 col-md-2 sleeve-image-${count}`,
-                key: `gallery-list-item${count}`,
+                key: `galleryListItem${count}`,
                 title: `Image${count}`
             }, image);
 
@@ -33,13 +33,13 @@ class GalleryImageList extends Component {
 
         return section({
             className: 'gallery-image-list-block',
-            key: 'gallery-image-list'
+            key: 'galleryImageList'
         }, div({
                 className: 'row sleeve-gallery-row',
-                key: 'sleeve-gallery-row'
+                key: 'sleeveGalleryRow'
             }, div({
                     className: 'col-lg-12',
-                    key: 'list-item-box'
+                    key: 'listItemBox'
                 }, listItems)
             )
         );

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, IndexRoute, NotFoundRoute, useRouterHistory }from 'react-router';
+import { Router, Route, IndexRoute, NotFoundRoute, useRouterHistory } from 'react-router';
 import { createHashHistory } from 'history';
 
 import App from './app';
@@ -11,7 +11,6 @@ import Profile from './components/profile/profile';
 
 // useRouterHistory creates a composable higher-order function
 const appHistory = useRouterHistory(createHashHistory)({ queryKey: false });
-
 
 const ReactRoute = React.createFactory(Route);
 const ReactIndexRoute = React.createFactory(IndexRoute);

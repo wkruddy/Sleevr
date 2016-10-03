@@ -10,10 +10,10 @@ class NavBar extends Component {
         super(props);
         this.state = {
             navItems: [
-                { link: '/', title: 'Home' },
-                { link: '/design-arena', title: 'Design' },
-                { link: '/gallery', title: 'Gallery' },
-                { link: '/profile', title: 'Profile' }
+                { link: '/', title: 'Home', activeOnIndex: true},
+                { link: '/design-arena', title: 'Design', activeOnIndex: false},
+                { link: '/gallery', title: 'Gallery', activeOnIndex: false},
+                { link: '/profile', title: 'Profile', activeOnIndex: false }
             ]
         };
     }
@@ -23,18 +23,18 @@ class NavBar extends Component {
         const container = div({ className: 'container-fluid' }, [
             div({
                 className: 'navbar-header',
-                key: 'nav-header'
+                key: 'navHeader'
             }, div({
                     className: 'navbar-brand',
                     key: 'brand'
                 }, 'Sleevr')
             ),
-            React.createElement(NavLinks, _.assign({ key: 'nav-list' }, this.state))
+            React.createElement(NavLinks, _.assign({ key: 'navList' }, this.state))
         ]);
 
         let navProps = {
-            key: 'navBar',
             className: 'navbar navbar-default navbar-fixed-top',
+            key: 'navBar',
             role: 'navigation'
         };
 

@@ -68,7 +68,7 @@ class SidebarTools extends Component {
                         _.assign({ key: 'sidebarComponent' },
                         this.state));
         const sidebarToolBox = div({
-            className: 'sidebar-tools',
+            className: 'sidebar-tools col-lg-3 col-md-3',
             key: 'sidebarToolBox'
         }, [sidebar]);
 
