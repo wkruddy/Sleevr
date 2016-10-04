@@ -36,4 +36,15 @@ const displayValues = {
     header: 'Design Arena'
 };
 
-export default { angleOptions, sleeveOptions, displayValues };
+const sleeveHash = {
+    '24-pin-mobo': {
+        numCables: 24,
+        rows: 2
+    },
+    '12-pin-cpu': {
+        numCables: 12,
+        rows: 2
+    }
+};
+
+export default { angleOptions, sleeveOptions, displayValues, sleeveHash };

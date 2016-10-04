@@ -3,3 +3,13 @@
 		border: 1px solid $grey-very-light;
 	}
 }
+
+.sidebar-tools {
+    ul {
+        list-style-type: none;
+    }
+}
+
+.drawing-board {
+    min-height: 400px;
+}

@@ -11,22 +11,25 @@ class ItemSelector extends Component {
     render () {
 
         const selectorOptions = this.props.selectorOptions.map((opt, i) =>
-            option({ key: `itemOption-${this.propsSelectorTitle}-${i}` }, opt.title)
+            option({ 
+                key: `itemOption-${this.props.selectorTitle}-${i}`, 
+                value: opt.value 
+            }, opt.title)
         );
 
         const actionButton = this.makeActionButton();
 
         return div({
             className: 'item-selector box',
-            key: `itemSelectBox-${this.propsSelectorTitle}`
+            key: `itemSelectBox-${this.props.selectorTitle}`
         }, [
             h4({
                 className: 'item-selector header-title',
-                key: `itemSelectorHeader-${this.propsSelectorTitle}`
-            }, this.props.propsSelectorTitle),
+                key: `itemSelectorHeader-${this.props.selectorTitle}`
+            }, this.props.selectorTitle),
             select({
                 className: 'item-selector selector',
-                key: `itemSelector-${this.propsSelectorTitle}`,
+                key: `itemSelector-${this.props.selectorTitle}`,
                 onChange: this.props.onChange
             }, [selectorOptions]),
             actionButton
@@ -37,7 +40,7 @@ class ItemSelector extends Component {
         if (this.props.renderWithButton) {
             return button({
                 className: 'item-selector action-btn',
-                key: `itemSelectorActionBtn-${this.propsSelectorTitle}`
+                key: `itemSelectorActionBtn-${this.props.selectorTitle}`
             });
         } else {
             return [];

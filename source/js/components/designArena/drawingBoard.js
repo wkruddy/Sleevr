@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-const { section } = React.DOM;
+const { section, div } = React.DOM;
+const { sleeveHash } = constants;
 
 class DrawingBoard extends Component {
 
@@ -25,8 +26,24 @@ class DrawingBoard extends Component {
             this.craftSleeveComponents(sleeve));
     }
 
-    craftSleeveComponents () {
-        return React.createElement('div', {});
+    craftSleeveComponents (sleeve) {
+        const layout = sleeveHash[sleeve.type];
+        const cablesPerRow = layout.numCables/ layout.rows;
+        let sleeveRowComponents = [];
+
+        for (let i = 0; i < layout.rows; i++) {
+            let cables = [];
+            for (let i = 0; i < cablesPerRow; i++) {
+                rowItems.push(div({
+                    key: `${sleeve.type}Cable-${i}`
+                }));
+            }
+            sleeve.push(cables)
+        }
+
+        return div({
+            key: `sleeve`
+        }, sleeveRowComponents);
     }
 }
 
