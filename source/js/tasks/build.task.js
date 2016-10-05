@@ -24,6 +24,7 @@ const buildTask = (() => {
     gulp.task('default', ['build:dev', 'browser:sync'], () => {
         utils.log('################ Gulp Default Process Running! ################');
         gulp.watch('*.html', reload);
+        gulp.watch('.min.css', reload);
 
         //gulp.watch(gulpConstants.paths.sourceJs, [
         // 'lib:combine:js', 'scripts:clean', 'browserify'

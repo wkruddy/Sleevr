@@ -13,45 +13,38 @@ class DesignArena extends Component {
 
     constructor (props) {
         super(props);
+        this.currentSleeves = [];
+
         this.state = {
+            sleeveOptions,
+            angleOptions,
             sidebarHeader: 'Tools',
             sleevesInArena: [],
             sidebarItems: [
                 {
                     key: 'typePicker',
-                    title: 'Cable Pin Layout',
-                    component: React.createElement(ItemSelector, {
-                        key: 'itemSelector-pinLayout',
-                        renderWithButton: false,
-                        selectorOptions: sleeveOptions,
-                        onChange: (evt) => {
-                            this.setState({ selectedSleeveValue: evt.target.value });
-                        }
-                    })
+                    component: this.makePinSelector()
                 },
                 {
                     key: 'anglePicker',
-                    title: 'Viewing Angle',
-                    component: React.createElement(ItemSelector, {
-                        key: 'itemSelector-viewAngle',
-                        selectorOptions: angleOptions,
-                        onChange: (evt) => {
-                            this.setState({ selectedAngleValue: evt.target.value });
-                        }
-                    })
+                    component: this.makeAngleSelector()
+                },
+                {
+                    key: 'customPicker',
+                    component: this.makePinCustomizer()
                 },
                 {
                     key: 'saveDesign',
-                    title: 'Save',
-                    className: 'btn btn-success',
                     component: button({
+                        className: 'btn btn-success',
+                        selectorTitle: 'Save',
                         key: 'saveDesignButton',
                         onClick: () => this.addSleeve()
                     }, '+')
                 }
             ],
-            sleeveOptions,
-            angleOptions
+            selectedSleeveValue: sleeveOptions[0].value,
+            selectedAngleValue: angleOptions[0].value,
         };
     }
 
@@ -87,9 +80,62 @@ class DesignArena extends Component {
             type: this.state.selectedSleeveValue,
             angle: this.state.selectedAngleValue
         };
-        this.state.sleevesInArena.push(sleeve);
+        this.currentSleeves.push(sleeve);
+
+        this.setState({ sleevesInArena: this.currentSleeves });
     }
 
+    makePinSelector () {
+       return React.createElement(ItemSelector, {
+                key: 'itemSelector-pinLayout',
+                selectorTitle: 'Cable Pin Layout',
+                renderWithButton: false,
+                selectorOptions: sleeveOptions,
+                defaultValue: sleeveOptions[0].value,
+                handleSelectorChange: (evt) => {
+                    this.setState({ selectedSleeveValue: evt.target.value });
+                }
+            });
+    }
+
+    makeAngleSelector () {
+        return React.createElement(ItemSelector, {
+                key: 'itemSelector-viewAngle',
+                selectorTitle: 'Viewing Angle',
+                renderWithButton: false,
+                selectorOptions: angleOptions,
+                defaultValue: angleOptions[0].value,
+                handleSelectorChange: (evt) => {
+                    this.setState({ selectedAngleValue: evt.target.value });
+                }
+            });
+    }
+
+    makePinCustomizer () {
+        return div({
+                key: 'itemSelector-customLayout',
+            }, [
+                h4(null, 'Custom Layout'),
+                React.createElement(ItemSelector, {
+                    key: 'itemSelector-customLayout-pins',
+                    selectorTitle: 'Number of Pins',
+                    renderWithButton: false,
+                    selectorOptions: angleOptions,
+                    handleSelectorChange: (evt) => {
+                        this.setState({ selectedAngleValue: evt.target.value });
+                    }
+                }),
+                React.createElement(ItemSelector, {
+                    key: 'itemSelector-customLayout-rows',
+                    selectorTitle: 'Number of Rows',
+                    renderWithButton: false,
+                    handleSelectorChange: (evt) => {
+                        this.setState({ selectedAngleValue: evt.target.value });
+                    }
+                })
+            ]
+        )
+    }
 }
 
 export default DesignArena;

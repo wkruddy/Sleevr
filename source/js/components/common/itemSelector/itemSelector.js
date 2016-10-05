@@ -11,9 +11,9 @@ class ItemSelector extends Component {
     render () {
 
         const selectorOptions = this.props.selectorOptions.map((opt, i) =>
-            option({ 
-                key: `itemOption-${this.props.selectorTitle}-${i}`, 
-                value: opt.value 
+            option({
+                key: `itemOption-${this.props.selectorTitle}-${i}`,
+                value: opt.value
             }, opt.title)
         );
 
@@ -30,7 +30,8 @@ class ItemSelector extends Component {
             select({
                 className: 'item-selector selector',
                 key: `itemSelector-${this.props.selectorTitle}`,
-                onChange: this.props.onChange
+                defaultValue: this.props.defaultValue,
+                onChange: this.props.handleSelectorChange
             }, [selectorOptions]),
             actionButton
         ]);
@@ -40,7 +41,8 @@ class ItemSelector extends Component {
         if (this.props.renderWithButton) {
             return button({
                 className: 'item-selector action-btn',
-                key: `itemSelectorActionBtn-${this.props.selectorTitle}`
+                key: `itemSelectorActionBtn-${this.props.selectorTitle}`,
+                onClick: this.props.handleActionClick
             });
         } else {
             return [];
