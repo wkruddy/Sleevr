@@ -1,13 +1,20 @@
 
 const paths = {
-    sourceJs: 'source/js/*.js',
-    sourceSass: 'source/sass/*.scss',
+    sourceJs: 'source/js',
+    sourceJsAll: 'source/js/*.js',
+    sourceSassAll: 'source/sass/*.scss',
+    sourceSass: 'source/sass/styles.scss',
     buildJs: 'build/js',
+    buildJsAll: 'build/js/*.js',
     buildCss: 'build/css',
+    buildCssAll: 'build/css/*.css',
     libJs: 'lib/js/',
-    libSass: 'lib/sass/'
+    libSass: 'lib/sass/',
+    bootstrapSass: 'node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss',
+    bootstrapJs: 'node_modules/bootstrap-sass/assets/javascripts/boostrap.js',
+    jquery: 'node_modules/jquery/dist/jquery.min.js'
 };
 
-const gulpConstants = { paths };
+const gulpConstants = { paths, reload: () => {} };
 
 export default gulpConstants;

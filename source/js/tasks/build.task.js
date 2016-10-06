@@ -1,10 +1,6 @@
 import gulp from 'gulp';
 import utils from 'gulp-util';
 import gulpConstants from '../constants/gulp.constants';
-import bSync from 'browser-sync';
-
-const browserSync = bSync.create();
-const reload = browserSync.reload;
 
 const buildTask = (() => {
     /*
@@ -13,25 +9,27 @@ const buildTask = (() => {
     ########################
     */
 
-    gulp.task('build:dist', ['lib:compile', 'browserify:dist', 'sassy:compression'], () => {
-        utils.log('################ Gulp Watching for Changes! ################');
-    });
+    gulp.task('lib:compile:dist', ['lib:combine:sass:dist', 'lib:combine:js:dist']);
+    gulp.task('lib:compile:dev', ['lib:combine:sass:dev', 'lib:combine:js:dev']);
 
-    gulp.task('build:dev', ['lib:compile', 'browserify:dev', 'sassy:compression'], () => {
-        utils.log('################ Gulp Watching for Changes! ################');
-    });
+    gulp.task('build:dist', [
+        'browser:sync',
+        'lib:compile:dist',
+        'browserify:dist',
+        'sassy:compression:dist',
+        'watch:dist'
+    ]);
 
-    gulp.task('default', ['build:dev', 'browser:sync'], () => {
+    gulp.task('build:dev', [
+        'browser:sync',
+        'lib:compile:dev',
+        'browserify:dev',
+        'sassy:compression:dev',
+        'watch:dev'
+    ]);
+
+    gulp.task('default', ['build:dev'], () => {
         utils.log('################ Gulp Default Process Running! ################');
-        gulp.watch('*.html', reload);
-        gulp.watch('.min.css', reload);
-
-        //gulp.watch(gulpConstants.paths.sourceJs, [
-        // 'lib:combine:js', 'scripts:clean', 'browserify'
-        // ]);
-        gulp.watch(gulpConstants.paths.sourceSass, [
-          'lib:combine:sass', 'sassy:clean', 'sassy:compression'
-        ]);
     });
 })();
 

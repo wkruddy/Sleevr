@@ -16,7 +16,7 @@ const scriptsTask = (() => {
     */
 
     gulp.task('lint', () =>
-        gulp.src(gulpConstants.paths.sourceJs)
+        gulp.src(gulpConstants.paths.sourceJsAll)
             .pipe(jshint())
             .pipe(jshint.reporter('default'))
     );
@@ -41,11 +41,11 @@ const scriptsTask = (() => {
     //         .pipe(reload({stream: true}))
     // );
 
-    gulp.task('lib:combine:js', () =>
+    gulp.task('lib:combine:js:dist', () =>
 
       // Bootstrap depends on jQuery being in front of it
-        gulp.src(['node_modules/jquery/dist/jquery.min.js',
-            'node_modules/bootstrap-sass/assets/javascripts/boostrap.js'
+        gulp.src([gulpConstants.paths.jquery,
+            gulpConstants.paths.bootstrapJs
             ])
             .pipe(size({
                 showFiles: true,
@@ -60,6 +60,20 @@ const scriptsTask = (() => {
                 showFiles: true,
                 title: '####### Final compressed ----Lib---- JS size ########'
             }))
+            .pipe(gulp.dest(gulpConstants.paths.buildJs))
+    );
+
+    gulp.task('lib:combine:js:dev', () =>
+
+      // Bootstrap depends on jQuery being in front of it
+        gulp.src([gulpConstants.paths.jquery,
+            gulpConstants.paths.bootstrapJs
+            ])
+            .pipe(concat('lib'))
+            .pipe(rename({
+                extname: '.min.js'
+            }))
+            .pipe(uglify())
             .pipe(gulp.dest(gulpConstants.paths.buildJs))
     );
 })();

@@ -5,10 +5,7 @@ import nano from 'gulp-cssnano';
 import sass from 'gulp-sass';
 import size from 'gulp-size';
 import autoprefixer from 'gulp-autoprefixer';
-import bSync from 'browser-sync';
 import gulpConstants from '../constants/gulp.constants';
-const browserSync = bSync.create();
-const reload = browserSync.reload;
 
 const stylesTask = (() => {
 
@@ -18,8 +15,8 @@ const stylesTask = (() => {
     ########################
     */
 
-    gulp.task('sassy:compression', ['sassy:clean'], () =>
-        gulp.src('source/sass/styles.scss')
+    gulp.task('sassy:compression:dist', ['sassy:clean'], () =>
+        gulp.src(gulpConstants.paths.sourceSass)
             .pipe(size({
                 showFiles: true,
                 title: '######## Initial ----Core---- SASS size #######'
@@ -35,11 +32,10 @@ const stylesTask = (() => {
                 title: '####### Final ----Core---- SASS size #######'
             }))
             .pipe(gulp.dest(gulpConstants.paths.buildCss))
-            .pipe(reload({ stream: true }))
     );
 
-    gulp.task('lib:combine:sass', () =>
-        gulp.src(['node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss'])
+    gulp.task('lib:combine:sass:dist', () =>
+        gulp.src([gulpConstants.paths.bootstrapSass])
             .pipe(size({
                 showFiles: true,
                 title: '######## Initial ----Lib---- SASS size #######'
@@ -57,6 +53,31 @@ const stylesTask = (() => {
                 showFiles: true,
                 title: '####### Final compressed ----Lib---- SASS size #######'
             }))
+            .pipe(gulp.dest(gulpConstants.paths.buildCss))
+    );
+
+    gulp.task('sassy:compression:dev', ['sassy:clean'], () =>
+        gulp.src(gulpConstants.paths.sourceSass)
+            .pipe(sass({ errLogToConsole: true }))
+            .pipe(concat('styles'))
+            .pipe(rename({
+                extname: '.min.css'
+            }))
+            .pipe(nano())
+            .pipe(gulp.dest(gulpConstants.paths.buildCss))
+    );
+
+    gulp.task('lib:combine:sass:dev', () =>
+        gulp.src([gulpConstants.paths.bootstrapSass])
+            .pipe(sass({ errLogToConsole: true }))
+            .pipe(autoprefixer({
+                browsers: ['last 2 versions']
+            }))
+            .pipe(concat('lib'))
+            .pipe(rename({
+                extname: '.min.css'
+            }))
+            .pipe(nano())
             .pipe(gulp.dest(gulpConstants.paths.buildCss))
     );
 })();

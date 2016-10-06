@@ -3,6 +3,7 @@ import _ from 'lodash';
 import SidebarTools from './sidebarTools';
 import DrawingBoard from './drawingBoard';
 import ItemSelector from '../common/itemSelector/itemSelector';
+import CustomLayoutSelector from './customLayoutSelector';
 
 import constants from '../../constants/designArena.constants';
 
@@ -20,36 +21,17 @@ class DesignArena extends Component {
             angleOptions,
             sidebarHeader: 'Tools',
             sleevesInArena: [],
-            sidebarItems: [
-                {
-                    key: 'typePicker',
-                    component: this.makePinSelector()
-                },
-                {
-                    key: 'anglePicker',
-                    component: this.makeAngleSelector()
-                },
-                {
-                    key: 'customPicker',
-                    component: this.makePinCustomizer()
-                },
-                {
-                    key: 'saveDesign',
-                    component: button({
-                        className: 'btn btn-success',
-                        selectorTitle: 'Save',
-                        key: 'saveDesignButton',
-                        onClick: () => this.addSleeve()
-                    }, '+')
-                }
-            ],
+            showCustomizer: false,
+            sidebarItems: [],
             selectedSleeveValue: sleeveOptions[0].value,
-            selectedAngleValue: angleOptions[0].value,
+            selectedAngleValue: angleOptions[0].value
         };
     }
 
     componentWillMount () {
-
+        this.setState({
+            sidebarItems: this.getSidebarItems()
+        });
     }
 
     render () {
@@ -74,6 +56,32 @@ class DesignArena extends Component {
         return designBox;
     }
 
+    getSidebarItems () {
+        return [
+            {
+                key: 'typePicker',
+                component: this.makePinSelector()
+            },
+            {
+                key: 'anglePicker',
+                component: this.makeAngleSelector()
+            },
+            {
+                key: 'customPicker',
+                component: this.makePinCustomizer()
+            },
+            {
+                key: 'saveDesign',
+                component: button({
+                    className: 'btn btn-success',
+                    selectorTitle: 'Save',
+                    key: 'saveDesignButton',
+                    onClick: () => this.addSleeve()
+                }, '+')
+            }
+        ];
+    }
+
     addSleeve () {
 
         const sleeve = {
@@ -86,56 +94,54 @@ class DesignArena extends Component {
     }
 
     makePinSelector () {
-       return React.createElement(ItemSelector, {
-                key: 'itemSelector-pinLayout',
-                selectorTitle: 'Cable Pin Layout',
-                renderWithButton: false,
-                selectorOptions: sleeveOptions,
-                defaultValue: sleeveOptions[0].value,
-                handleSelectorChange: (evt) => {
-                    this.setState({ selectedSleeveValue: evt.target.value });
-                }
+
+        const handleSelectorChange = (e) => {
+            const pinLayout = e.target.value;
+
+            this.setState({
+                selectedSleeveValue: pinLayout,
+                showCustomizer: pinLayout === 'custom',
+                sidebarItems: this.getSidebarItems()
             });
+        };
+
+        return React.createElement(ItemSelector, {
+            key: 'itemSelector-pinLayout',
+            selectorTitle: 'Cable Pin Layout',
+            renderWithButton: false,
+            selectorOptions: sleeveOptions,
+            defaultValue: sleeveOptions[0].value,
+            handleSelectorChange
+        });
     }
 
     makeAngleSelector () {
+        const handleSelectorChange = (e) => {
+            this.setState({ selectedAngleValue: e.target.value });
+        };
+
         return React.createElement(ItemSelector, {
-                key: 'itemSelector-viewAngle',
-                selectorTitle: 'Viewing Angle',
-                renderWithButton: false,
-                selectorOptions: angleOptions,
-                defaultValue: angleOptions[0].value,
-                handleSelectorChange: (evt) => {
-                    this.setState({ selectedAngleValue: evt.target.value });
-                }
-            });
+            key: 'itemSelector-viewAngle',
+            selectorTitle: 'Viewing Angle',
+            renderWithButton: false,
+            selectorOptions: angleOptions,
+            defaultValue: angleOptions[0].value,
+            handleSelectorChange
+        });
     }
 
     makePinCustomizer () {
-        return div({
-                key: 'itemSelector-customLayout',
-            }, [
-                h4(null, 'Custom Layout'),
-                React.createElement(ItemSelector, {
-                    key: 'itemSelector-customLayout-pins',
-                    selectorTitle: 'Number of Pins',
-                    renderWithButton: false,
-                    selectorOptions: angleOptions,
-                    handleSelectorChange: (evt) => {
-                        this.setState({ selectedAngleValue: evt.target.value });
-                    }
-                }),
-                React.createElement(ItemSelector, {
-                    key: 'itemSelector-customLayout-rows',
-                    selectorTitle: 'Number of Rows',
-                    renderWithButton: false,
-                    handleSelectorChange: (evt) => {
-                        this.setState({ selectedAngleValue: evt.target.value });
-                    }
-                })
-            ]
-        )
+        return React.createElement(CustomLayoutSelector, {
+            key: 'itemInput-customLayoutSelector',
+            handleInputChange: this.handleInputChange,
+            showCustomizer: this.state.showCustomizer
+        });
     }
+
+    handleInputChange (key, value) {
+        this.setState({ [key]: value });
+    }
+
 }
 
 export default DesignArena;

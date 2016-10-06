@@ -9,15 +9,13 @@ const cleanUpTask = (() => {
     ########################
     */
 
-    gulp.task('lib:compile', ['lib:combine:sass', 'lib:combine:js']);
-
     gulp.task('scripts:clean', () =>
-        gulp.src(`${gulpConstants.paths.buildJs}/*.js`)
+        gulp.src(gulpConstants.paths.buildJsAll)
               .pipe(clean())
     );
 
     gulp.task('sassy:clean', () =>
-        gulp.src(`${gulpConstants.paths.buildCss}/*.css`)
+        gulp.src(gulpConstants.paths.buildCssAll)
               .pipe(clean())
     );
 })();

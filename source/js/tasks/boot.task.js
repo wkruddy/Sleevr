@@ -17,6 +17,8 @@ import bSync from 'browser-sync';
 const browserSync = bSync.create();
 const reload = browserSync.reload;
 
+gulpConstants.reload = reload;
+
 const bootTask = (() => {
 
     // /*
@@ -84,19 +86,11 @@ const bootTask = (() => {
                   .pipe(source('routes.js'))
                   .pipe(buffer())
                   .pipe(sourcemaps.init({loadMaps: true}))
-                  .pipe(size({
-                      showFiles: true,
-                      title: '######## Initial ----Core---- JS size ########'
-                  }))
                   .pipe(babel())
                   .on('error', utils.log)
                   .pipe(concat('scripts'))
                   .pipe(rename({
                       extname: '.min.js'
-                  }))
-                  .pipe(size({
-                      showFiles: true,
-                      title: '######## Final compressed ----Core---- JS size ########'
                   }))
                   .pipe(sourcemaps.write('./'))
                   .pipe(gulp.dest(gulpConstants.paths.buildJs))
