@@ -35,7 +35,10 @@ const stylesTask = (() => {
     );
 
     gulp.task('lib:combine:sass:dist', () =>
-        gulp.src([gulpConstants.paths.bootstrapSass])
+        gulp.src([
+                gulpConstants.paths.bootstrapSass,
+                gulpConstants.paths.colorPickerCss
+            ])
             .pipe(size({
                 showFiles: true,
                 title: '######## Initial ----Lib---- SASS size #######'
@@ -68,7 +71,10 @@ const stylesTask = (() => {
     );
 
     gulp.task('lib:combine:sass:dev', () =>
-        gulp.src([gulpConstants.paths.bootstrapSass])
+        gulp.src([
+                gulpConstants.paths.bootstrapSass,
+                gulpConstants.paths.colorPickerCss
+            ])
             .pipe(sass({ errLogToConsole: true }))
             .pipe(autoprefixer({
                 browsers: ['last 2 versions']

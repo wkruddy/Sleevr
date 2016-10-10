@@ -33,7 +33,7 @@ class App extends Component {
         ];
 
         return div({
-            className: 'app-block',
+            className: 'app-block container-fluid',
             key: 'sleevrApp'
         }, childComponents);
     }

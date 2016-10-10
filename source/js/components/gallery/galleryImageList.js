@@ -32,7 +32,7 @@ class GalleryImageList extends Component {
         }
 
         return section({
-            className: 'gallery-image-list-block',
+            className: 'gallery-image-list-block row container',
             key: 'galleryImageList'
         }, div({
                 className: 'row sleeve-gallery-row',

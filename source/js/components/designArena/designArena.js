@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Panel as ColorPickerPanel } from 'rc-color-picker';
 import _ from 'lodash';
 import SidebarTools from './sidebarTools';
 import DrawingBoard from './drawingBoard';
@@ -71,6 +72,10 @@ class DesignArena extends Component {
                 component: this.makePinCustomizer()
             },
             {
+                key: 'colorPicker',
+                component: this.makeColorPicker()
+            },
+            {
                 key: 'saveDesign',
                 component: button({
                     className: 'btn btn-success',
@@ -135,6 +140,13 @@ class DesignArena extends Component {
             key: 'itemInput-customLayoutSelector',
             handleInputChange: this.handleInputChange,
             showCustomizer: this.state.showCustomizer
+        });
+    }
+
+    makeColorPicker () {
+        return React.createElement(ColorPickerPanel, {
+            mode: 'HSL',
+            onChange: (val) => { console.log(val); }
         });
     }
 
