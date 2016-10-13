@@ -35,9 +35,9 @@ $sleeveWidth: 25px;
         width: $sleeveWidth;
     }
 
-    .curved,
-    .side {
-        width: $sleeveWidth * 5;
+   & .curved,
+   &.side {
+        width: $sleeveWidth * 8;
         height: $sleeveWidth;
     }
 }

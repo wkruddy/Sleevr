@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import constants from '../../constants/designArena.constants';
 
 const { section, div } = React.DOM;
-const { sleeveHash, makefakeGUID } = constants;
+const { makefakeGUID } = constants;
 
 class DrawingBoard extends Component {
 
@@ -10,6 +11,7 @@ class DrawingBoard extends Component {
         super(props);
         this.state = {};
         this.currentLayerNum = 1;
+        this.lodash = _;
     }
 
     render () {
@@ -69,42 +71,106 @@ class DrawingBoard extends Component {
     }
 
     buildSleeveConfig (sleeve) {
+
         const isCustom = sleeve.type === 'custom';
 
-        let layout = sleeveHash[sleeve.type];
+        const cableConfig =  _.find(this.props.sleeveOptions, (opt) =>
+                                            opt.value === sleeve.type);
 
-        if (isCustom) {
-            layout.numCables = sleeve.customPinCount;
-            layout.rows = sleeve.customRowCount;
-        }
+        const angleConfig = _.find(this.props.angleOptions, (opt) =>
+                                    opt.value === sleeve.angle);
 
-        // Algorithm to take the sleeves per row and the angle, then build the correct
-        const cablesPerRow = this.getCablesPerRow(layout, sleeve.type);
+        let numCables = isCustom ? sleeve.customPinCount : cableConfig.numCables;
 
-        const rowsPerSleeve = this.getRowsPerSleeve(layout, sleeve.angle);
+        // If the default rows are less than what the angle says we shoud display, use that
+        // Otherwise, single-row cables like molex will render inconsistently
+        const defaultRowsShouldOverride = cableConfig.defaultRows < angleConfig.rows;
+
+        let rows = isCustom
+                ? sleeve.customRowCount
+                : defaultRowsShouldOverride
+                ? cableConfig.defaultRows
+                : angleConfig.rows;
+
+
+        let cables = this.getNumCables(numCables, rows, sleeve.angle, cableConfig.defaultRows);
+
+        return { cables, rows };
+
     }
-    getCablesPerRow (layout, sleeveType, angle) {
-        
-        const cableMap = {
-            default: layout.numCables / layout.rows,
-            custom: layout.numCables,
-            side: 1
+
+    getNumCables (numCables, rows, angle, defaultRows) {
+
+        const angleRowMap = {
+            side: 1, // Side views will default to 2, for 2 cable/2 rows
+            curved: 1, // Same as above, for now
+            top: numCables / defaultRows,
+            bot: numCables / defaultRows,
+            default: numCables / rows
         };
 
-        return cableMap[angle] || cableMap[sleeveType] || cableMap['default'];
+        return angleRowMap[angle] || angleRowMap.default;
     }
 
-    getRowsPerSleeve (layout, angle) {
-        const angleMap = {
-            default: layout.rows,
-            curved: 2,
-            side: 2,
-            top: 1,
-            bot: 1
-        };
+    // buildSleeveConfig (sleeve) {
 
-        return angleMap[angle] || angleMap['default'];
-    }
+    //     const isCustom = sleeve.type === 'custom';
+
+    //     const cableConfig =  _.find(this.props.sleeveOptions, (opt) =>
+    //                                         opt.value === sleeve.type);
+
+    //     const angleConfig = _.find(this.props.angleOptions, (opt) =>
+    //                                 opt.value === sleeve.angle);
+
+    //     let numCables =  cableConfig.numCables;
+
+    //     // If the default rows are less than what the angle says we shoud display, use that
+    //     // Otherwise, single-row cables like molex will render inconsistently
+    //     const defaultRowsShouldOverride = cableConfig.defaultRows < angleConfig.rows;
+
+    //     let rows = defaultRowsShouldOverride
+    //             ? cableConfig.defaultRows
+    //             : angleConfig.rows;
+
+    //     const cableOpts = this.mutateBasedOnCustomValues(rows, numCables, sleeve, cableConfig);
+    //     let cables = this.getNumCables(cableOpts);
+
+    //     // return { cables, rows };
+    //     return cables;
+
+    // }
+
+    // mutateBasedOnCustomValues (rows, numCables, sleeve, cableConfig) {
+    //     const angleRowMap = { // Do the division per row, but only display 1 row
+    //         top: 1,
+    //         bot: 1,
+    //         default: sleeve.customRowCount
+    //     };
+
+    //     if (sleeve.type === 'custom') {
+    //         numCables = sleeve.customPinCount
+    //         rows = angleRowMap[sleeve.angle] || angleRowMap.default
+    //     }
+
+    //     return { rows, numCables, angle: sleeve.angle, cableConfig };
+    // }
+
+    // getNumCables (cableOpts) {
+    //     let { numCables: cables, rows, angle, cableConfig } = cableOpts;
+
+    //     const angleCableMap = {
+    //         side: 1, // Side views will default to 2, for 2 cable/2 rows
+    //         curved: 1, // Same as above, for now
+    //         top: cables / cableConfig.defaultRows
+    //         default: cables / rows
+    //     };
+    //     cables =  angleCableMap[angle] || angleCableMap.default;
+
+    //     return {
+    //         rows,
+    //         cables
+    //     }
+    // }
 
     getUniqKey () {
         this.currentLayerNum++;
@@ -137,9 +203,10 @@ class DrawingBoard extends Component {
 
     onDragDrop (e) {
         const dropElem = e.currentTarget;
-
-        this.draggingState.elem.style.top = `${dropElem.offsetTop - this.draggingState.initialOffsetY}px`;
-        this.draggingState.elem.style.left = `${dropElem.offsetLeft - this.draggingState.initialOffsetX}px`;
+        const top = `${dropElem.offsetTop - this.draggingState.initialOffsetY}px`;
+        const left = `${dropElem.offsetLeft - this.draggingState.initialOffsetX}px`;
+        this.draggingState.elem.style.top = top;
+        this.draggingState.elem.style.left = left;
         this.draggingState = {};
     }
 }
