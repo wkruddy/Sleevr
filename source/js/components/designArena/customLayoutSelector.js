@@ -9,7 +9,7 @@ class CustomLayoutSelector extends Component {
     constructor (props) {
         super(props);
         this.state = {};
-        this.debouncedInputHandler = _.debounce(this.props.handleInputChange, 250);
+        this.debouncedInputHandler = _.debounce(this.props.handleCustomizerInputChange, 250);
     }
 
     render () {
@@ -20,7 +20,8 @@ class CustomLayoutSelector extends Component {
                     h4({ key: 'customLayoutHeader' }, 'Custom Layout'),
                     React.createElement(ItemInput, {
                         key: 'itemInput-customLayout-pins',
-                        inputTitle: 'Number of Pins',
+                        type: 'number',
+                        inputTitle: 'Number of Pins Per Row',
                         placeholder: 'Add number of pins',
                         renderWithButton: false,
                         handleInputChange: (e) => {
@@ -32,6 +33,7 @@ class CustomLayoutSelector extends Component {
                     }),
                     React.createElement(ItemInput, {
                         key: 'itemInput-customLayout-rows',
+                        type: 'number',
                         inputTitle: 'Number of Rows',
                         placeholder: 'Add number of rows',
                         renderWithButton: false,

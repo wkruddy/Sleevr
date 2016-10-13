@@ -23,16 +23,12 @@ class DesignArena extends Component {
             sidebarHeader: 'Tools',
             sleevesInArena: [],
             showCustomizer: false,
-            sidebarItems: [],
             selectedSleeveValue: sleeveOptions[0].value,
-            selectedAngleValue: angleOptions[0].value
+            selectedAngleValue: angleOptions[0].value,
+            handleCustomizerInputChange: this.handleCustomizerInputChange,
+            customPinCount: 0,
+            customRowCount: 0
         };
-    }
-
-    componentWillMount () {
-        this.setState({
-            sidebarItems: this.getSidebarItems()
-        });
     }
 
     render () {
@@ -44,11 +40,16 @@ class DesignArena extends Component {
                     className: 'row container-header',
                     key: 'containerHeader'
                 }, displayValues.header),
-                div({ className: 'row', key: 'designArena' }, [
-                    React.createElement(SidebarTools,
-                        _.assign({ key: 'sidebarTools' }, this.state)),
-                    React.createElement(DrawingBoard,
-                        _.assign({ key: 'drawingBoard' }, this.state))
+                div({ className: 'row', key: 'designArena' },
+                    [
+                        React.createElement(SidebarTools,
+                            _.assign({
+                                key: 'sidebarTools',
+                                sidebarItems: this.getSidebarItems()
+                            }, this.state)
+                        ),
+                        React.createElement(DrawingBoard,
+                            _.assign({ key: 'drawingBoard' }, this.state))
                     ]
                 )
             ]
@@ -91,7 +92,9 @@ class DesignArena extends Component {
 
         const sleeve = {
             type: this.state.selectedSleeveValue,
-            angle: this.state.selectedAngleValue
+            angle: this.state.selectedAngleValue,
+            customPinCount: this.state.customPinCount,
+            customRowCount: this.state.customRowCount
         };
         this.currentSleeves.push(sleeve);
 
@@ -99,24 +102,12 @@ class DesignArena extends Component {
     }
 
     makePinSelector () {
-
-        const handleSelectorChange = (e) => {
-            const pinLayout = e.target.value;
-
-            this.setState({
-                selectedSleeveValue: pinLayout,
-                showCustomizer: pinLayout === 'custom',
-                sidebarItems: this.getSidebarItems()
-            });
-        };
-
         return React.createElement(ItemSelector, {
-            key: 'itemSelector-pinLayout',
             selectorTitle: 'Cable Pin Layout',
             renderWithButton: false,
             selectorOptions: sleeveOptions,
             defaultValue: sleeveOptions[0].value,
-            handleSelectorChange
+            handleSelectorChange: this.handleSelectorChange.bind(this)
         });
     }
 
@@ -126,7 +117,6 @@ class DesignArena extends Component {
         };
 
         return React.createElement(ItemSelector, {
-            key: 'itemSelector-viewAngle',
             selectorTitle: 'Viewing Angle',
             renderWithButton: false,
             selectorOptions: angleOptions,
@@ -137,22 +127,34 @@ class DesignArena extends Component {
 
     makePinCustomizer () {
         return React.createElement(CustomLayoutSelector, {
-            key: 'itemInput-customLayoutSelector',
-            handleInputChange: this.handleInputChange,
-            showCustomizer: this.state.showCustomizer
+            showCustomizer: this.state.showCustomizer,
+            handleCustomizerInputChange: this.handleCustomizerInputChange.bind(this)
         });
     }
 
     makeColorPicker () {
         return React.createElement(ColorPickerPanel, {
             mode: 'HSL',
-            onChange: (val) => { console.log(val); }
+            onChange: (val) => {
+                this.setState({ activeColorValues: val });
+            }
         });
     }
 
-    handleInputChange (key, value) {
-        this.setState({ [key]: value });
+    handleCustomizerInputChange (key, value) {
+        this.setState({ [key]: Math.floor(value) });
     }
+
+    handleSelectorChange (e) {
+        const pinLayout = e.target.value;
+
+        this.setState({
+            showCustomizer: pinLayout === 'custom',
+            selectedSleeveValue: pinLayout,
+            customPinCount: 0,
+            customRowCount: 0
+        });
+    };
 
 }
 

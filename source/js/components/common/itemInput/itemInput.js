@@ -23,6 +23,7 @@ class ItemInput extends Component {
             input({
                 className: 'item-input input',
                 key: `itemInput-${this.props.inputTitle}`,
+                type: this.props.type || 'text',
                 placeholder: this.props.placeholder,
                 onChange: this.props.handleInputChange
             }),

@@ -17,7 +17,9 @@ class DrawingBoard extends Component {
 
         const drawingBoardBox = section({
             className: 'drawing-board col-lg-9 col-md-9',
-            key: 'drawingBoardBox'
+            key: 'drawingBoardBox',
+            onDragOver: (e) => e.preventDefault(),
+            onDrop: (e) => this.onDragDrop(e),
         }, sleeveSet);
 
         return drawingBoardBox;
@@ -29,12 +31,16 @@ class DrawingBoard extends Component {
     }
 
     craftSleeveComponents (sleeve) {
-        const layout = sleeveHash[sleeve.type];
-        const cablesPerRow = layout.numCables / layout.rows;
+
+        const sleeveConfig = this.buildSleeveConfig(sleeve);
+
+        const cablesPerRow = sleeveConfig.cables;
+        const rowsPerSleeve = sleeveConfig.rows;
+
         let sleeveRowComponents = [];
         const uniqKey = this.getUniqKey();
 
-        for (let i = 0; i < layout.rows; i++) {
+        for (let i = 0; i < rowsPerSleeve; i++) {
             let cables = [];
             for (let i = 0; i < cablesPerRow; i++) {
                 cables.push(div({
@@ -42,6 +48,7 @@ class DrawingBoard extends Component {
                     key: `${sleeve.type}Cable-${i}-${uniqKey}`
                 }));
             }
+
             const cableRow = div({
                 className: `sleeve-cable-row ${sleeve.angle}`,
                 key: `${sleeve.type}Cable-${i}-${uniqKey}`
@@ -52,11 +59,51 @@ class DrawingBoard extends Component {
         return div({
             className: `sleeve-box ${sleeve.angle}`,
             style: {
-                'zIndex': `${this.currentLayerNum}`
+                zIndex: `${this.currentLayerNum}`
             },
             'data-layer': `${this.currentLayerNum}`,
+            draggable: true,
+            onDragStart: (e) => this.onDragStart(e),
             key: `${sleeve.type}Sleeve-${uniqKey}`
         }, sleeveRowComponents);
+    }
+
+    buildSleeveConfig (sleeve) {
+        const isCustom = sleeve.type === 'custom';
+
+        let layout = sleeveHash[sleeve.type];
+
+        if (isCustom) {
+            layout.numCables = sleeve.customPinCount;
+            layout.rows = sleeve.customRowCount;
+        }
+
+        // Algorithm to take the sleeves per row and the angle, then build the correct
+        const cablesPerRow = this.getCablesPerRow(layout, sleeve.type);
+
+        const rowsPerSleeve = this.getRowsPerSleeve(layout, sleeve.angle);
+    }
+    getCablesPerRow (layout, sleeveType, angle) {
+        
+        const cableMap = {
+            default: layout.numCables / layout.rows,
+            custom: layout.numCables,
+            side: 1
+        };
+
+        return cableMap[angle] || cableMap[sleeveType] || cableMap['default'];
+    }
+
+    getRowsPerSleeve (layout, angle) {
+        const angleMap = {
+            default: layout.rows,
+            curved: 2,
+            side: 2,
+            top: 1,
+            bot: 1
+        };
+
+        return angleMap[angle] || angleMap['default'];
     }
 
     getUniqKey () {
@@ -67,8 +114,33 @@ class DrawingBoard extends Component {
     setXYCoordinatesForNext () {
         let sleeveLayerElems = document.querySelectorAll('.sleeve-box');
         sleeveLayerElems.reduce((previousMax, elem) => {
-            elem.attributes['data-layer']// GET THE HIGHEST INDEX
+            elem.attributes['data-layer'];// GET THE HIGHEST INDEX
         }, 0);
+    }
+
+    onDragStart (e) {
+
+        // var data = {
+        //   name: 'foobar',
+        //   age: 15
+        // };
+
+        // e.dataTransfer.setData('text', JSON.stringify(data));
+        const elem = e.currentTarget;
+        this.draggingState = {
+            elem,
+            initialOffsetY: elem.offsetTop,
+            initialOffsetX: elem.offsetLeft
+        };
+
+    }
+
+    onDragDrop (e) {
+        const dropElem = e.currentTarget;
+
+        this.draggingState.elem.style.top = `${dropElem.offsetTop - this.draggingState.initialOffsetY}px`;
+        this.draggingState.elem.style.left = `${dropElem.offsetLeft - this.draggingState.initialOffsetX}px`;
+        this.draggingState = {};
     }
 }
 

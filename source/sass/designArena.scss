@@ -1,3 +1,5 @@
+$sleeveWidth: 25px;
+
 .design-arena {
     .drawing-board {
         border-left: 1px solid $grey-very-light;
@@ -22,17 +24,22 @@
 
     &.xcut-top-bot,
     &.xcut-bot-top {
-        width: 25px;
+        width: $sleeveWidth;
         height: 100%;
         display: inline-block;
     }
 
     &.top,
     &.bot {
-        height: 150px;
+        height: $sleeveWidth * 6;
+        width: $sleeveWidth;
     }
 
-    .curved {}
+    .curved,
+    .side {
+        width: $sleeveWidth * 5;
+        height: $sleeveWidth;
+    }
 }
 
 .sleeve-cable-row {
